@@ -773,13 +773,13 @@ export default function BQPage() {
             <div
               className="mb-5 rounded-xl p-4"
               style={{
-                background: '#1a1a18',
-                border: '1px solid #272522',
+                background: '#eae5da',
+                border: '1px solid #d4caba',
               }}
             >
               <p
                 className="text-xs font-semibold uppercase tracking-widest mb-3 flex items-center gap-1.5"
-                style={{ color: '#6e6860' }}
+                style={{ color: '#7a7268' }}
               >
                 <HelpCircle size={12} /> Likely follow-up questions
               </p>
@@ -788,11 +788,11 @@ export default function BQPage() {
                   <li key={i} className="flex gap-3 items-start">
                     <span
                       className="text-xs font-bold shrink-0 mt-0.5 w-4 h-4 rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(240,235,224,0.08)', color: '#c0b8a8', fontSize: '10px' }}
+                      style={{ background: 'rgba(0,0,0,0.08)', color: '#4a4540', fontSize: '10px' }}
                     >
                       {i + 1}
                     </span>
-                    <p className="text-sm leading-relaxed" style={{ color: '#a09890' }}>{q}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#4a4540' }}>{q}</p>
                   </li>
                 ))}
               </ul>
@@ -803,21 +803,21 @@ export default function BQPage() {
           <div
             className="rounded-xl p-4"
             style={{
-              background: '#1a1a18',
-              border: '1px solid #272522',
+              background: '#eae5da',
+              border: '1px solid #d4caba',
             }}
           >
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#6e6860' }}>
+              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#7a7268' }}>
                 Personal Notes
               </p>
               {!editingNotes && (
                 <button
                   onClick={() => { setNotesDraft(viewingStory.user_notes ?? ''); setEditingNotes(true) }}
                   className="text-xs flex items-center gap-1 transition-colors"
-                  style={{ color: '#4a4540' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#c0b8a8')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#4a4540')}
+                  style={{ color: '#9a9288' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}
                 >
                   <Edit2 size={11} /> Edit
                 </button>
@@ -831,8 +831,8 @@ export default function BQPage() {
                   placeholder="Your personal practice notes, delivery tips, things to remember…"
                   rows={4}
                   autoFocus
-                  className="w-full rounded-lg px-3 py-3.5 text-sm placeholder-[#4a4540] focus:outline-none resize-none transition-colors"
-                  style={{ background: '#161614', border: '1px solid rgba(240,235,224,0.3)', color: '#f0ebe0' }}
+                  className="w-full rounded-lg px-3 py-3.5 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
+                  style={{ background: '#f8f4ec', border: '1px solid rgba(0,0,0,0.35)', color: '#0f0f0d' }}
                 />
                 <div className="flex gap-2">
                   <button
@@ -840,8 +840,8 @@ export default function BQPage() {
                     disabled={savingNotes}
                     className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-all disabled:opacity-50"
                     style={{
-                      background: '#e8dfc8',
-                      color: '#0f0f0d',
+                      background: '#1a1a18',
+                      color: '#f5f0e8',
                     }}
                   >
                     {savingNotes ? <Loader2 size={11} className="animate-spin" /> : <Save size={11} />}
@@ -850,18 +850,18 @@ export default function BQPage() {
                   <button
                     onClick={() => setEditingNotes(false)}
                     className="text-xs px-3 py-1.5 rounded-lg border transition-colors"
-                    style={{ border: '1px solid #272522', color: '#6e6860' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = '#c0b8a8')}
-                    onMouseLeave={e => (e.currentTarget.style.color = '#6e6860')}
+                    style={{ border: '1px solid #d4caba', color: '#7a7268' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
                   >
                     Cancel
                   </button>
                 </div>
               </div>
             ) : (
-              <p className="text-sm leading-relaxed" style={{ color: '#6e6860' }}>
+              <p className="text-sm leading-relaxed" style={{ color: '#4a4540' }}>
                 {viewingStory.user_notes || (
-                  <span className="italic" style={{ color: '#4a4540' }}>
+                  <span className="italic" style={{ color: '#9a9288' }}>
                     No notes yet — click Edit to add personal delivery tips
                   </span>
                 )}
@@ -881,22 +881,22 @@ export default function BQPage() {
             <button
               onClick={() => setMode('idle')}
               className="transition-colors"
-              style={{ color: '#6e6860' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#c0b8a8')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#6e6860')}
+              style={{ color: '#7a7268' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
             >
               <X size={16} />
             </button>
-            <h2 className="text-xl font-semibold tracking-tight" style={{ color: '#f0ebe0' }}>Question Coach</h2>
+            <h2 className="text-xl font-semibold tracking-tight" style={{ color: '#0f0f0d' }}>Question Coach</h2>
           </div>
 
-          <p className="text-sm mb-6" style={{ color: '#6e6860' }}>
+          <p className="text-sm mb-6" style={{ color: '#7a7268' }}>
             Type a BQ question you're preparing for and get matched to your best story — with key points to emphasize.
           </p>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#4a4540' }}>
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>
                 Interview Question
               </label>
               <textarea
@@ -904,10 +904,10 @@ export default function BQPage() {
                 onChange={e => setQuestion(e.target.value)}
                 placeholder="e.g. Tell me about a time you had to make a decision with incomplete information…"
                 rows={3}
-                className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#4a4540] focus:outline-none resize-none transition-colors"
+                className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
                 style={inputStyle}
-                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(240,235,224,0.3)')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#272522')}
+                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
+                onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
               />
             </div>
             <button
@@ -915,8 +915,8 @@ export default function BQPage() {
               disabled={recommending || !question.trim() || stories.length === 0}
               className="w-full py-4 rounded-xl text-base font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               style={{
-                background: '#e8dfc8',
-                color: '#0f0f0d',
+                background: '#1a1a18',
+                color: '#f5f0e8',
               }}
             >
               {recommending
@@ -934,41 +934,41 @@ export default function BQPage() {
             <div
               className="mt-6 rounded-2xl overflow-hidden"
               style={{
-                background: '#1a1a18',
-                border: '1px solid rgba(240,235,224,0.1)',
+                background: '#eae5da',
+                border: '1px solid #d4caba',
               }}
             >
               <div
                 className="px-5 py-4"
                 style={{
-                  background: 'rgba(240,235,224,0.05)',
-                  borderBottom: '1px solid rgba(240,235,224,0.08)',
+                  background: 'rgba(0,0,0,0.04)',
+                  borderBottom: '1px solid rgba(0,0,0,0.08)',
                 }}
               >
-                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#c0b8a8' }}>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#7a7268' }}>
                   Best match
                 </p>
-                <p className="font-semibold" style={{ color: '#f0ebe0' }}>{recommendation.story_title}</p>
+                <p className="font-semibold" style={{ color: '#0f0f0d' }}>{recommendation.story_title}</p>
               </div>
               <div className="p-5 space-y-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#4a4540' }}>
+                  <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#9a9288' }}>
                     Why this story
                   </p>
-                  <p className="text-sm leading-relaxed" style={{ color: '#a09890' }}>{recommendation.reason}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: '#4a4540' }}>{recommendation.reason}</p>
                 </div>
                 {recommendation.key_points_to_emphasize?.length > 0 && (
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest mb-2.5" style={{ color: '#4a4540' }}>
+                    <p className="text-xs font-semibold uppercase tracking-widest mb-2.5" style={{ color: '#9a9288' }}>
                       Key points to emphasize
                     </p>
                     <ul className="space-y-2">
                       {recommendation.key_points_to_emphasize.map((pt, i) => (
                         <li key={i} className="flex gap-2 items-start">
-                          <span className="shrink-0 mt-0.5" style={{ color: '#c0b8a8' }}>
+                          <span className="shrink-0 mt-0.5" style={{ color: '#4a4540' }}>
                             <ArrowRight size={12} />
                           </span>
-                          <span className="text-sm" style={{ color: '#a09890' }}>{pt}</span>
+                          <span className="text-sm" style={{ color: '#4a4540' }}>{pt}</span>
                         </li>
                       ))}
                     </ul>
@@ -977,9 +977,9 @@ export default function BQPage() {
                 <button
                   onClick={() => openStory(recommendation.story_id)}
                   className="flex items-center gap-2 text-sm transition-colors"
-                  style={{ color: '#c0b8a8' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#e8dfc8')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#c0b8a8')}
+                  style={{ color: '#4a4540' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#4a4540')}
                 >
                   <BookOpen size={13} /> View full story
                 </button>
