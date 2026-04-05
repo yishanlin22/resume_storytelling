@@ -3,6 +3,21 @@ import { useNavigate } from 'react-router-dom'
 import { login, register } from '../api/client'
 import { Loader2, Sparkles } from 'lucide-react'
 
+const INPUT: React.CSSProperties = {
+  background: '#f8f4ec',
+  border: '1px solid #d4caba',
+  color: '#0f0f0d',
+  width: '100%',
+  borderRadius: 10,
+  padding: '14px 16px',
+  fontSize: 15,
+  outline: 'none',
+  transition: 'border-color 0.15s',
+  boxSizing: 'border-box',
+}
+const onFocus = (e: React.FocusEvent<HTMLInputElement>) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)' }
+const onBlur  = (e: React.FocusEvent<HTMLInputElement>) => { e.currentTarget.style.borderColor = '#d4caba' }
+
 export default function AuthPage() {
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
@@ -34,111 +49,145 @@ export default function AuthPage() {
     }
   }
 
-  const inputStyle = {
-    background: '#f8f4ec',
-    border: '1px solid #d4caba',
-    color: '#0f0f0d',
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center px-4"
-      style={{ background: '#f5f0e8' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: '#f5f0e8' }}>
 
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4"
-            style={{ background: '#1a1a18', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
+      <div style={{ width: '100%', maxWidth: 420 }}>
+
+        {/* Logo area */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: 16, background: '#1a1a18', boxShadow: '0 8px 24px rgba(0,0,0,0.2)', marginBottom: 16 }}>
             <Sparkles size={24} style={{ color: '#f5f0e8' }} />
           </div>
-          <h1 className="text-2xl font-bold mb-1" style={{ color: '#0f0f0d' }}>Resume Telling</h1>
-          <p className="text-sm" style={{ color: '#7a7268' }}>Your AI-powered resume & interview toolkit</p>
+          <h1 style={{ fontSize: 28, fontWeight: 700, color: '#0f0f0d', margin: 0 }}>Resume Telling</h1>
+          <p style={{ fontSize: 14, color: '#7a7268', marginTop: 6 }}>Your AI-powered resume &amp; interview toolkit</p>
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl p-8"
-          style={{
-            background: '#ede8dc',
-            border: '1px solid #d4caba',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
-          }}>
+        <div style={{ background: '#ede8dc', border: '1px solid #d4caba', borderRadius: 16, boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
 
           {/* Tab toggle */}
-          <div className="flex rounded-xl p-1 mb-6" style={{ background: '#e4ddd0', border: '1px solid #d4caba' }}>
-            {(['login', 'register'] as const).map(m => (
-              <button key={m} onClick={() => { setMode(m); setError('') }}
-                className="flex-1 py-3.5 rounded-lg text-base font-medium transition-all"
-                style={mode === m ? {
-                  background: '#1a1a18',
-                  color: '#f5f0e8',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-                } : { color: '#7a7268' }}
-                onMouseEnter={e => { if (mode !== m) e.currentTarget.style.color = '#0f0f0d' }}
-                onMouseLeave={e => { if (mode !== m) e.currentTarget.style.color = '#7a7268' }}>
-                {m === 'login' ? 'Sign In' : 'Create Account'}
-              </button>
-            ))}
+          <div style={{ padding: '20px 28px 0' }}>
+            <div style={{ display: 'flex', background: '#e4ddd0', border: '1px solid #d4caba', borderRadius: 10, padding: 5, gap: 4 }}>
+              {(['login', 'register'] as const).map(m => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => { setMode(m); setError('') }}
+                  style={{
+                    flex: 1,
+                    padding: '12px 0',
+                    borderRadius: 8,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    ...(mode === m
+                      ? { background: '#1a1a18', color: '#f5f0e8' }
+                      : { background: 'transparent', color: '#7a7268' }),
+                  }}
+                  onMouseEnter={e => { if (mode !== m) e.currentTarget.style.color = '#0f0f0d' }}
+                  onMouseLeave={e => { if (mode !== m) e.currentTarget.style.color = '#7a7268' }}
+                >
+                  {m === 'login' ? 'Sign In' : 'Create Account'}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Form */}
+          <form onSubmit={handleSubmit} style={{ padding: '24px 28px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+
             {mode === 'register' && (
-              <div>
-                <label className="block text-sm font-medium mb-1.5" style={{ color: '#4a4540' }}>Full Name</label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9a9288' }}>
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full rounded-xl px-5 py-4 text-base placeholder-[#b0a898] outline-none transition-all"
-                  style={inputStyle}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                  style={INPUT}
+                  onFocus={onFocus}
+                  onBlur={onBlur}
                 />
               </div>
             )}
-            <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: '#4a4540' }}>Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="you@example.com" required
-                className="w-full rounded-xl px-5 py-4 text-base placeholder-[#b0a898] outline-none transition-all"
-                style={inputStyle}
-                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9a9288' }}>
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                style={INPUT}
+                onFocus={onFocus}
+                onBlur={onBlur}
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: '#4a4540' }}>Password</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••" required
-                className="w-full rounded-xl px-5 py-4 text-base placeholder-[#b0a898] outline-none transition-all"
-                style={inputStyle}
-                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9a9288' }}>
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                style={INPUT}
+                onFocus={onFocus}
+                onBlur={onBlur}
               />
             </div>
 
             {error && (
-              <div className="text-sm rounded-xl px-4 py-3"
-                style={{ background: 'rgba(185,28,28,0.08)', border: '1px solid rgba(185,28,28,0.2)', color: '#b91c1c' }}>
+              <p style={{ fontSize: 13, color: '#b91c1c', background: 'rgba(185,28,28,0.08)', border: '1px solid rgba(185,28,28,0.2)', borderRadius: 8, padding: '12px 16px', margin: 0 }}>
                 {error}
-              </div>
+              </p>
             )}
 
-            <button type="submit" disabled={loading}
-              className="w-full font-semibold py-4 rounded-xl text-base transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+            <button
+              type="submit"
+              disabled={loading}
               style={{
+                width: '100%',
+                padding: '14px 24px',
+                borderRadius: 10,
+                fontSize: 15,
+                fontWeight: 600,
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 background: '#1a1a18',
                 color: '#f5f0e8',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+                opacity: loading ? 0.6 : 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                transition: 'background 0.15s',
               }}
-              onMouseEnter={e => { if (!loading) (e.currentTarget.style.background = '#2a2a28') }}
-              onMouseLeave={e => { if (!loading) (e.currentTarget.style.background = '#1a1a18') }}>
+              onMouseEnter={e => { if (!loading) e.currentTarget.style.background = '#2a2a28' }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#1a1a18' }}
+            >
               {loading && <Loader2 size={16} className="animate-spin" />}
               {loading ? 'Please wait…' : mode === 'login' ? 'Sign In' : 'Create Account'}
             </button>
+
           </form>
         </div>
 
-        <p className="text-center text-xs mt-6" style={{ color: '#b0a898' }}>
+        <p style={{ textAlign: 'center', fontSize: 12, color: '#b0a898', marginTop: 24 }}>
           Built for hackathon · Powered by Claude AI
         </p>
+
       </div>
     </div>
   )

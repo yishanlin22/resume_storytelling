@@ -64,102 +64,112 @@ export default function DashboardPage() {
 
   return (
     <Layout>
-      <div className="flex-1 overflow-y-auto p-10">
-        {/* Header */}
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#0f0f0d' }}>Resume Versions</h1>
-              <p className="text-base mt-2" style={{ color: '#7a7268' }}>Manage and tailor your resume versions for each application</p>
-            </div>
-            <button onClick={() => setShowUpload(true)}
-              className="flex items-center gap-2 text-sm font-semibold px-8 py-4 rounded-xl transition-all whitespace-nowrap shrink-0"
-              style={{
-                background: '#1a1a18',
-                color: '#f5f0e8',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#2a2a28')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#1a1a18')}>
-              <Plus size={16} /> Upload Resume
-            </button>
+      <div style={{ flex: 1, overflowY: 'auto', padding: 32, position: 'relative' }}>
+
+        {/* Upload button — top-right */}
+        <div style={{ position: 'absolute', top: 24, right: 32 }}>
+          <button
+            onClick={() => setShowUpload(true)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '12px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600,
+              background: '#1a1a18', color: '#f5f0e8', border: 'none', cursor: 'pointer',
+              transition: 'background 0.15s', whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#2a2a28')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#1a1a18')}
+          >
+            <Plus size={15} /> Upload Resume
+          </button>
+        </div>
+
+        <div style={{ maxWidth: 896, margin: '0 auto' }}>
+
+          {/* Header */}
+          <div style={{ marginBottom: 48 }}>
+            <h1 style={{ fontSize: 28, fontWeight: 700, color: '#0f0f0d', margin: 0 }}>Resume Versions</h1>
+            <p style={{ fontSize: 15, color: '#7a7268', marginTop: 8 }}>Manage and tailor your resume versions for each application</p>
           </div>
 
           {loading ? (
-            <div className="flex items-center gap-2 text-sm py-16 justify-center" style={{ color: '#7a7268' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#7a7268', justifyContent: 'center', padding: '64px 0' }}>
               <Loader2 size={18} className="animate-spin" /> Loading your resumes…
             </div>
           ) : resumes.length === 0 ? (
             /* Empty state */
-            <div className="rounded-2xl py-28 px-8 text-center"
-              style={{ border: '2px dashed #d4caba' }}>
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6"
-                style={{ background: '#f0ebe2', border: '1px solid #d4caba' }}>
+            <div style={{ border: '2px dashed #d4caba', borderRadius: 16, padding: '112px 32px', textAlign: 'center' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 80, height: 80, borderRadius: 16, marginBottom: 24, background: '#f0ebe2', border: '1px solid #d4caba' }}>
                 <FileText size={36} style={{ color: '#9a9288' }} />
               </div>
-              <p className="text-xl font-semibold mb-3" style={{ color: '#0f0f0d' }}>No resume versions yet</p>
-              <p className="text-base mb-8 max-w-sm mx-auto" style={{ color: '#7a7268' }}>
+              <p style={{ fontSize: 20, fontWeight: 600, color: '#0f0f0d', marginBottom: 12 }}>No resume versions yet</p>
+              <p style={{ fontSize: 15, color: '#7a7268', marginBottom: 32, maxWidth: 360, margin: '0 auto 32px' }}>
                 Upload a PDF, DOCX, or paste plain text to get started. AI will parse and structure your resume instantly.
               </p>
-              <button onClick={() => setShowUpload(true)}
-                className="text-sm font-semibold px-8 py-4 rounded-xl transition-all"
-                style={{ background: '#1a1a18', color: '#f5f0e8', boxShadow: '0 2px 12px rgba(0,0,0,0.1)' }}
+              <button
+                onClick={() => setShowUpload(true)}
+                style={{
+                  padding: '14px 32px', borderRadius: 10, fontSize: 15, fontWeight: 600,
+                  background: '#1a1a18', color: '#f5f0e8', border: 'none', cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#2a2a28')}
-                onMouseLeave={e => (e.currentTarget.style.background = '#1a1a18')}>
+                onMouseLeave={e => (e.currentTarget.style.background = '#1a1a18')}
+              >
                 Upload your first resume
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
               {resumes.map(r => {
                 const accent = LABEL_ACCENT[r.label] ?? LABEL_ACCENT.general
                 return (
-                  <div key={r.resume_id} onClick={() => navigate(`/resume/${r.resume_id}`)}
-                    className="group relative rounded-2xl cursor-pointer transition-all duration-200"
-                    style={{ background: '#eae5da', border: '1px solid #d4caba' }}
+                  <div
+                    key={r.resume_id}
+                    onClick={() => navigate(`/resume/${r.resume_id}`)}
+                    style={{
+                      position: 'relative', borderRadius: 12, cursor: 'pointer',
+                      background: '#eae5da', border: '1px solid #d4caba',
+                      transition: 'all 0.2s',
+                    }}
                     onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = 'rgba(0,0,0,0.2)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
-                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = 'rgba(0,0,0,0.2)'
+                      el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)'
+                      el.style.transform = 'translateY(-2px)'
                     }}
                     onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = '#d4caba'
-                      e.currentTarget.style.boxShadow = 'none'
-                      e.currentTarget.style.transform = 'translateY(0)'
-                    }}>
-
-                    {/* Top accent strip */}
-                    <div className="h-1 w-full"
-                      style={{ background: `linear-gradient(90deg, ${accent}90 0%, transparent 100%)` }} />
-
-                    <div className="p-7">
-                      <div className="flex items-start justify-between mb-6">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center"
-                          style={{ background: `${accent}18`, border: `1px solid ${accent}30` }}>
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = '#d4caba'
+                      el.style.boxShadow = 'none'
+                      el.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    <div style={{ padding: 28 }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24 }}>
+                        <div style={{ width: 48, height: 48, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${accent}18`, border: `1px solid ${accent}30` }}>
                           <FileText size={22} style={{ color: accent }} />
                         </div>
-                        <button onClick={e => handleDelete(r.resume_id, e)}
-                          className="opacity-0 group-hover:opacity-100 p-2 rounded-lg transition-all"
-                          style={{ color: '#9a9288' }}
+                        <button
+                          onClick={e => handleDelete(r.resume_id, e)}
+                          style={{ padding: '6px', borderRadius: 8, border: 'none', background: 'transparent', cursor: 'pointer', color: '#9a9288', transition: 'all 0.15s' }}
                           onMouseEnter={e => { e.currentTarget.style.color = '#fca5a5'; e.currentTarget.style.background = 'rgba(185,28,28,0.12)' }}
-                          onMouseLeave={e => { e.currentTarget.style.color = '#9a9288'; e.currentTarget.style.background = 'transparent' }}>
+                          onMouseLeave={e => { e.currentTarget.style.color = '#9a9288'; e.currentTarget.style.background = 'transparent' }}
+                        >
                           <Trash2 size={16} />
                         </button>
                       </div>
 
-                      <h3 className="font-semibold text-base mb-1.5 truncate" style={{ color: '#0f0f0d' }}>{r.version_name}</h3>
-                      {r.name && <p className="text-sm mb-6 truncate" style={{ color: '#7a7268' }}>{r.name}</p>}
+                      <h3 style={{ fontWeight: 600, fontSize: 15, color: '#0f0f0d', marginBottom: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.version_name}</h3>
+                      {r.name && <p style={{ fontSize: 14, color: '#7a7268', marginBottom: 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.name}</p>}
 
-                      <div className="flex items-center justify-between">
-                        <span className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full font-medium ${LABEL_COLORS[r.label] ?? LABEL_COLORS.general}`}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: r.name ? 0 : 20 }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, padding: '5px 10px', borderRadius: 20, fontWeight: 500, background: `${accent}18`, color: accent, border: `1px solid ${accent}30` }}>
                           <Tag size={10} /> {r.label}
                         </span>
-                        <ArrowRight size={16} className="transition-colors group-hover:translate-x-0.5 transition-transform"
-                          style={{ color: '#9a9288' }}
-                        />
+                        <ArrowRight size={16} style={{ color: '#9a9288' }} />
                       </div>
 
-                      <p className="text-xs mt-5" style={{ color: '#b0a898' }}>
+                      <p style={{ fontSize: 12, color: '#b0a898', marginTop: 16 }}>
                         {new Date(r.updated_at + 'Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>

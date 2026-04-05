@@ -10,6 +10,31 @@ import {
   BookOpen, ChevronDown, Download, Building2,
 } from 'lucide-react'
 
+// ─── Shared input style (matches UploadModal exactly) ─────────────────────────
+
+const INPUT: React.CSSProperties = {
+  background: '#f8f4ec',
+  border: '1px solid #d4caba',
+  color: '#0f0f0d',
+  width: '100%',
+  borderRadius: 10,
+  padding: '14px 16px',
+  fontSize: 15,
+  outline: 'none',
+  transition: 'border-color 0.15s',
+  boxSizing: 'border-box',
+}
+const onFocusInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)' }
+const onBlurInput  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = '#d4caba' }
+
+const LABEL_STYLE: React.CSSProperties = {
+  fontSize: 11,
+  fontWeight: 700,
+  textTransform: 'uppercase',
+  letterSpacing: '0.1em',
+  color: '#9a9288',
+}
+
 // ─── Experience modal (add / edit) ────────────────────────────────────────────
 
 interface ModalState {
@@ -63,152 +88,132 @@ function ExperienceModal({
     setBullets(prev => [...prev, ''])
   }
 
-  const inputStyle = {
-    background: '#f8f4ec',
-    border: '1px solid #d4caba',
-    color: '#0f0f0d',
-  }
-
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{ background: 'rgba(15,15,13,0.5)', backdropFilter: 'blur(8px)' }}
+      style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px', background: 'rgba(15,15,13,0.5)', backdropFilter: 'blur(8px)' }}
     >
       <div
-        className="w-full max-w-xl rounded-2xl shadow-2xl max-h-[92vh] flex flex-col"
         style={{
+          width: '100%',
+          maxWidth: 560,
           background: '#ede8dc',
           border: '1px solid #d4caba',
-          backdropFilter: 'blur(8px)',
+          borderRadius: 16,
+          boxShadow: '0 24px 64px rgba(0,0,0,0.18)',
+          maxHeight: '92vh',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {/* Header */}
-        <div
-          className="flex items-center justify-between px-8 py-5 shrink-0"
-          style={{ borderBottom: '1px solid #d4caba' }}
-        >
-          <h2 className="text-xl font-semibold tracking-tight" style={{ color: '#0f0f0d' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 28px', borderBottom: '1px solid #d4caba', flexShrink: 0 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#0f0f0d', margin: 0 }}>
             {state.mode === 'add' ? 'Add Experience' : 'Edit Experience'}
           </h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
-            style={{ color: '#7a7268' }}
+            style={{ color: '#9a9288', padding: 6, borderRadius: 8, lineHeight: 0, background: 'transparent', border: 'none', cursor: 'pointer' }}
             onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}
           >
             <X size={18} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
-          <div className="p-8 space-y-7 overflow-y-auto flex-1">
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+          <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: 24, overflowY: 'auto', flex: 1 }}>
+
             {/* Company + Role */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <label style={LABEL_STYLE}>
                   Company <span style={{ color: '#f87171' }}>*</span>
                 </label>
                 <input
                   value={company}
                   onChange={e => setCompany(e.target.value)}
                   placeholder="e.g. Google"
-                  className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors"
-                  style={{ ...inputStyle }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                  style={INPUT}
+                  onFocus={onFocusInput}
+                  onBlur={onBlurInput}
                 />
               </div>
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <label style={LABEL_STYLE}>
                   Role <span style={{ color: '#f87171' }}>*</span>
                 </label>
                 <input
                   value={role}
                   onChange={e => setRole(e.target.value)}
                   placeholder="e.g. Software Engineer"
-                  className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors"
-                  style={{ ...inputStyle }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                  style={INPUT}
+                  onFocus={onFocusInput}
+                  onBlur={onBlurInput}
                 />
               </div>
             </div>
 
             {/* Dates + Location */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
-                  Dates
-                </label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <label style={LABEL_STYLE}>Dates</label>
                 <input
                   value={dates}
                   onChange={e => setDates(e.target.value)}
                   placeholder="e.g. Jan 2022 – Present"
-                  className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors"
-                  style={{ ...inputStyle }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                  style={INPUT}
+                  onFocus={onFocusInput}
+                  onBlur={onBlurInput}
                 />
               </div>
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
-                  Location
-                </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <label style={LABEL_STYLE}>Location</label>
                 <input
                   value={location}
                   onChange={e => setLocation(e.target.value)}
                   placeholder="e.g. Seattle, WA"
-                  className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors"
-                  style={{ ...inputStyle }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                  style={INPUT}
+                  onFocus={onFocusInput}
+                  onBlur={onBlurInput}
                 />
               </div>
             </div>
 
             {/* Description */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>
-                Description
-              </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <label style={LABEL_STYLE}>Description</label>
               <textarea
                 value={description}
                 onChange={e => setDesc(e.target.value)}
                 placeholder="Briefly describe your role, team size, scope, key projects — used to build BQ stories"
                 rows={4}
-                className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
-                style={{ ...inputStyle }}
-                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                style={{ ...INPUT, resize: 'none' }}
+                onFocus={onFocusInput}
+                onBlur={onBlurInput}
               />
             </div>
 
             {/* Bullets */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
-                Key Accomplishments
-              </label>
-              <div className="space-y-2.5">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <label style={LABEL_STYLE}>Key Accomplishments</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {bullets.map((b, i) => (
-                  <div key={i} className="flex gap-2.5 items-start">
-                    <span className="mt-3.5 shrink-0 text-xs" style={{ color: '#9a9288' }}>·</span>
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <span style={{ marginTop: 17, flexShrink: 0, fontSize: 12, color: '#9a9288' }}>·</span>
                     <textarea
                       value={b}
                       onChange={e => setBullet(i, e.target.value)}
                       placeholder="e.g. Led migration of auth service, reducing latency by 40%"
                       rows={2}
-                      className="flex-1 rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
-                      style={{ ...inputStyle }}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
+                      style={{ ...INPUT, resize: 'none', flex: 1 }}
+                      onFocus={onFocusInput}
+                      onBlur={onBlurInput}
                     />
                     {bullets.length > 1 && (
                       <button
                         type="button"
                         onClick={() => removeBullet(i)}
-                        className="mt-2.5 shrink-0 transition-colors"
-                        style={{ color: '#9a9288' }}
+                        style={{ marginTop: 12, flexShrink: 0, background: 'transparent', border: 'none', cursor: 'pointer', color: '#9a9288', padding: 4, lineHeight: 0, transition: 'color 0.15s' }}
                         onMouseEnter={e => (e.currentTarget.style.color = '#f87171')}
                         onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}
                       >
@@ -220,8 +225,7 @@ function ExperienceModal({
                 <button
                   type="button"
                   onClick={addBullet}
-                  className="flex items-center gap-1.5 text-sm transition-colors mt-1 px-1"
-                  style={{ color: '#7a7268' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, color: '#7a7268', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', transition: 'color 0.15s', alignSelf: 'flex-start' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                   onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
                 >
@@ -231,51 +235,33 @@ function ExperienceModal({
             </div>
 
             {error && (
-              <p className="text-sm px-4 py-3 rounded-xl" style={{ color: '#b91c1c', background: 'rgba(185,28,28,0.08)', border: '1px solid rgba(185,28,28,0.2)' }}>
+              <p style={{ fontSize: 13, color: '#b91c1c', background: 'rgba(185,28,28,0.08)', border: '1px solid rgba(185,28,28,0.2)', borderRadius: 8, padding: '12px 16px', margin: 0 }}>
                 {error}
               </p>
             )}
           </div>
 
           {/* Footer */}
-          <div
-            className="flex gap-3 px-8 py-5 shrink-0"
-            style={{ borderTop: '1px solid #d4caba' }}
-          >
+          <div style={{ display: 'flex', gap: 12, padding: '20px 28px', borderTop: '1px solid #d4caba', flexShrink: 0 }}>
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-4 rounded-xl text-base font-medium transition-all"
-              style={{ border: '1px solid #d4caba', color: '#7a7268' }}
-              onMouseEnter={e => {
-                e.currentTarget.style.color = '#0f0f0d'
-                e.currentTarget.style.borderColor = '#b0a898'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.color = '#7a7268'
-                e.currentTarget.style.borderColor = '#d4caba'
-              }}
+              style={{ flex: 1, padding: '14px 0', borderRadius: 10, fontSize: 15, fontWeight: 500, cursor: 'pointer', border: '1px solid #d4caba', background: 'transparent', color: '#7a7268', transition: 'all 0.15s' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b0a898' }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.borderColor = '#d4caba' }}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-4 rounded-xl text-base font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-              style={{
-                background: '#1a1a18',
-                color: '#f5f0e8',
-              }}
-              onMouseEnter={e => {
-                if (!loading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28'
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18'
-              }}
+              style={{ flex: 1, padding: '14px 0', borderRadius: 10, fontSize: 15, fontWeight: 600, cursor: loading ? 'not-allowed' : 'pointer', border: 'none', background: '#1a1a18', color: '#f5f0e8', opacity: loading ? 0.6 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'background 0.15s' }}
+              onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}
             >
               {loading
-                ? <><Loader2 size={16} className="animate-spin" />Saving…</>
-                : <><Save size={16} />{state.mode === 'add' ? 'Add Experience' : 'Save Changes'}</>}
+                ? <><Loader2 size={15} className="animate-spin" />Saving…</>
+                : <><Save size={15} />{state.mode === 'add' ? 'Add Experience' : 'Save Changes'}</>}
             </button>
           </div>
         </form>
@@ -311,16 +297,14 @@ function ImportPanel({ onImported }: { onImported: (count: number) => void }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all"
-        style={{ border: '1px solid #d4caba', color: '#7a7268' }}
-        onMouseEnter={e => {
-          e.currentTarget.style.color = '#0f0f0d'
-          e.currentTarget.style.borderColor = '#b0a898'
+        style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '14px 24px', borderRadius: 10, fontSize: 15, fontWeight: 500,
+          border: '1px solid #d4caba', color: '#7a7268', background: 'transparent',
+          cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap',
         }}
-        onMouseLeave={e => {
-          e.currentTarget.style.color = '#7a7268'
-          e.currentTarget.style.borderColor = '#d4caba'
-        }}
+        onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b0a898' }}
+        onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.borderColor = '#d4caba' }}
       >
         <Download size={15} /> Import from Resume
       </button>
@@ -328,42 +312,38 @@ function ImportPanel({ onImported }: { onImported: (count: number) => void }) {
   }
 
   return (
-    <div className="flex items-center gap-2.5">
-      <div className="relative">
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ position: 'relative' }}>
         <select
           value={selected}
           onChange={e => setSelected(e.target.value)}
-          className="appearance-none text-sm rounded-xl pl-4 pr-9 py-3 focus:outline-none transition-colors"
-          style={{ background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }}
+          style={{ background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d', borderRadius: 10, padding: '12px 40px 12px 14px', fontSize: 14, outline: 'none', appearance: 'none' }}
         >
           {resumes.map(r => (
             <option key={r.resume_id} value={r.resume_id}>{r.version_name}</option>
           ))}
         </select>
-        <ChevronDown size={13} className="absolute right-3 top-3.5 pointer-events-none" style={{ color: '#7a7268' }} />
+        <ChevronDown size={13} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#7a7268' }} />
       </div>
       <button
         onClick={handleImport}
         disabled={loading || !selected}
-        className="px-5 py-3 rounded-xl text-sm font-medium flex items-center gap-2 transition-all disabled:opacity-50"
         style={{
-          background: '#1a1a18',
-          color: '#f5f0e8',
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '12px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600,
+          background: '#1a1a18', color: '#f5f0e8', border: 'none',
+          cursor: loading || !selected ? 'not-allowed' : 'pointer',
+          opacity: loading || !selected ? 0.5 : 1, transition: 'background 0.15s',
         }}
-        onMouseEnter={e => {
-          if (!loading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28'
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18'
-        }}
+        onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}
       >
         {loading ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
         Import
       </button>
       <button
         onClick={() => setOpen(false)}
-        className="transition-colors p-1"
-        style={{ color: '#7a7268' }}
+        style={{ color: '#7a7268', background: 'transparent', border: 'none', cursor: 'pointer', padding: 4, lineHeight: 0, transition: 'color 0.15s' }}
         onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
         onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
       >
@@ -382,114 +362,86 @@ function ExperienceCard({
   onEdit: () => void
   onDelete: () => void
 }) {
+  const [hovered, setHovered] = useState(false)
+
   return (
     <div
-      className="rounded-2xl p-7 transition-all group relative"
       style={{
+        borderRadius: 12,
+        padding: 28,
+        position: 'relative',
         background: '#eae5da',
         border: '1px solid #d4caba',
+        transition: 'all 0.15s',
+        ...(hovered ? { borderColor: 'rgba(0,0,0,0.2)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' } : {}),
       }}
-      onMouseEnter={e => {
-        const el = e.currentTarget as HTMLDivElement
-        el.style.borderColor = 'rgba(0,0,0,0.2)'
-        el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)'
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget as HTMLDivElement
-        el.style.borderColor = '#d4caba'
-        el.style.boxShadow = 'none'
-      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* Accent strip */}
-      <div
-        className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity"
-        style={{ background: 'linear-gradient(90deg, rgba(0,0,0,0.15), rgba(0,0,0,0.05))' }}
-      />
-
       {/* Action buttons */}
-      <div className="absolute top-5 right-5 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div style={{ position: 'absolute', top: 16, right: 16, display: 'flex', alignItems: 'center', gap: 6, opacity: hovered ? 1 : 0, transition: 'opacity 0.15s' }}>
         <button
           onClick={onEdit}
           title="Edit"
-          className="p-2 rounded-lg transition-colors"
-          style={{ color: '#7a7268' }}
-          onMouseEnter={e => {
-            e.currentTarget.style.color = '#0f0f0d'
-            e.currentTarget.style.background = 'rgba(0,0,0,0.06)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.color = '#7a7268'
-            e.currentTarget.style.background = 'transparent'
-          }}
+          style={{ padding: 8, borderRadius: 8, border: 'none', background: 'transparent', cursor: 'pointer', color: '#7a7268', lineHeight: 0, transition: 'all 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.background = 'rgba(0,0,0,0.06)' }}
+          onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.background = 'transparent' }}
         >
           <Edit2 size={15} />
         </button>
         <button
           onClick={onDelete}
           title="Delete"
-          className="p-2 rounded-lg transition-colors"
-          style={{ color: '#7a7268' }}
-          onMouseEnter={e => {
-            e.currentTarget.style.color = '#f87171'
-            e.currentTarget.style.background = 'rgba(239,68,68,0.12)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.color = '#7a7268'
-            e.currentTarget.style.background = 'transparent'
-          }}
+          style={{ padding: 8, borderRadius: 8, border: 'none', background: 'transparent', cursor: 'pointer', color: '#7a7268', lineHeight: 0, transition: 'all 0.15s' }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.background = 'rgba(239,68,68,0.12)' }}
+          onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.background = 'transparent' }}
         >
           <Trash2 size={15} />
         </button>
       </div>
 
       {/* Header */}
-      <div className="flex items-start gap-4 mb-5 pr-20">
-        <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-          style={{ background: '#f0ebe2', border: '1px solid #d4caba' }}
-        >
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 16, paddingRight: 64 }}>
+        <div style={{ width: 44, height: 44, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: '#f0ebe2', border: '1px solid #d4caba' }}>
           <Building2 size={18} style={{ color: '#7a7268' }} />
         </div>
-        <div className="min-w-0">
-          <p className="font-semibold text-base truncate" style={{ color: '#0f0f0d' }}>{exp.role}</p>
-          <p className="text-sm truncate mt-0.5" style={{ color: '#4a4540' }}>
+        <div style={{ minWidth: 0 }}>
+          <p style={{ fontWeight: 600, fontSize: 15, color: '#0f0f0d', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exp.role}</p>
+          <p style={{ fontSize: 14, color: '#4a4540', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {exp.company}{exp.location ? ` · ${exp.location}` : ''}
           </p>
           {exp.dates && (
-            <p className="text-xs mt-1" style={{ color: '#9a9288' }}>{exp.dates}</p>
+            <p style={{ fontSize: 12, color: '#9a9288', marginTop: 4 }}>{exp.dates}</p>
           )}
         </div>
       </div>
 
       {/* Description preview */}
       {exp.description && (
-        <p className="text-sm mb-5 line-clamp-2 leading-relaxed" style={{ color: '#7a7268' }}>
+        <p style={{ fontSize: 14, color: '#7a7268', marginBottom: 16, lineHeight: 1.5, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
           {exp.description}
         </p>
       )}
 
       {/* Bullets preview */}
       {exp.bullets?.length > 0 && (
-        <ul className="space-y-1.5 mb-5">
+        <ul style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 6, listStyle: 'none', padding: 0 }}>
           {exp.bullets.slice(0, 2).map((b, i) => (
-            <li key={i} className="text-sm flex gap-2" style={{ color: '#7a7268' }}>
-              <span className="shrink-0 mt-0.5" style={{ color: '#9a9288' }}>·</span>
-              <span className="line-clamp-1">{b}</span>
+            <li key={i} style={{ fontSize: 14, display: 'flex', gap: 8, color: '#7a7268' }}>
+              <span style={{ flexShrink: 0, marginTop: 2, color: '#9a9288' }}>·</span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b}</span>
             </li>
           ))}
           {exp.bullets.length > 2 && (
-            <li className="text-xs" style={{ color: '#9a9288' }}>+{exp.bullets.length - 2} more</li>
+            <li style={{ fontSize: 12, color: '#9a9288' }}>+{exp.bullets.length - 2} more</li>
           )}
         </ul>
       )}
 
       {/* Story count badge */}
-      <div
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
-        style={{ background: 'rgba(0,0,0,0.06)' }}
-      >
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 8, background: 'rgba(0,0,0,0.06)' }}>
         <BookOpen size={13} style={{ color: '#7a7268' }} />
-        <span className="text-xs font-medium" style={{ color: '#7a7268' }}>
+        <span style={{ fontSize: 12, fontWeight: 500, color: '#7a7268' }}>
           {exp.story_count === 0 ? 'No stories yet' : `${exp.story_count} stor${exp.story_count !== 1 ? 'ies' : 'y'}`}
         </span>
       </div>
@@ -533,55 +485,42 @@ export default function ExperiencesPage() {
 
   return (
     <Layout>
-      <div className="flex-1 overflow-y-auto p-10">
-        <div className="max-w-4xl mx-auto">
+      <div style={{ flex: 1, overflowY: 'auto', padding: 32, position: 'relative' }}>
+
+        {/* Action buttons — top-right */}
+        <div style={{ position: 'absolute', top: 24, right: 32, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <ImportPanel onImported={handleImported} />
+          <button
+            onClick={() => setModal({ mode: 'add' })}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '14px 24px', borderRadius: 10, fontSize: 15, fontWeight: 600,
+              background: '#1a1a18', color: '#f5f0e8', border: 'none',
+              cursor: 'pointer', transition: 'background 0.15s', whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}
+          >
+            <Plus size={15} /> Add Experience
+          </button>
+        </div>
+
+        <div>
           {/* Header */}
-          <div className="flex items-start justify-between mb-12">
-            <div>
-              <h1
-                className="text-3xl font-bold tracking-tight"
-                style={{ color: '#0f0f0d' }}
-              >
-                Experiences
-              </h1>
-              <p className="text-base mt-2" style={{ color: '#7a7268' }}>
-                Your work history for BQ story prep — each experience can have multiple STAR stories
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <ImportPanel onImported={handleImported} />
-              <button
-                onClick={() => setModal({ mode: 'add' })}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all whitespace-nowrap"
-                style={{
-                  background: '#1a1a18',
-                  color: '#f5f0e8',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28'
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18'
-                }}
-              >
-                <Plus size={16} /> Add Experience
-              </button>
-            </div>
+          <div style={{ marginBottom: 48 }}>
+            <h1 style={{ fontSize: 28, fontWeight: 700, color: '#0f0f0d', margin: 0 }}>Experiences</h1>
+            <p style={{ fontSize: 15, color: '#7a7268', marginTop: 8 }}>
+              Your work history for BQ story prep — each experience can have multiple STAR stories
+            </p>
           </div>
 
           {/* Import success message */}
           {importMsg && (
-            <div
-              className="mb-6 px-5 py-3.5 rounded-xl flex items-center justify-between"
-              style={{
-                background: 'rgba(6,78,59,0.2)',
-                border: '1px solid rgba(16,185,129,0.3)',
-              }}
-            >
-              <span className="text-sm" style={{ color: '#6ee7b7' }}>{importMsg}</span>
+            <div style={{ marginBottom: 24, padding: '14px 20px', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(6,78,59,0.2)', border: '1px solid rgba(16,185,129,0.3)' }}>
+              <span style={{ fontSize: 14, color: '#6ee7b7' }}>{importMsg}</span>
               <button
                 onClick={() => setImportMsg('')}
-                style={{ color: '#34d399' }}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#34d399', lineHeight: 0, transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#6ee7b7')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#34d399')}
               >
@@ -592,45 +531,33 @@ export default function ExperiencesPage() {
 
           {/* Content */}
           {loading ? (
-            <div className="flex items-center gap-2 text-sm py-16 justify-center" style={{ color: '#7a7268' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#7a7268', justifyContent: 'center', padding: '64px 0' }}>
               <Loader2 size={18} className="animate-spin" /> Loading experiences…
             </div>
           ) : experiences.length === 0 ? (
-            <div
-              className="rounded-2xl py-28 px-8 text-center"
-              style={{ border: '2px dashed #d4caba' }}
-            >
-              <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
-                style={{ background: '#f0ebe2', border: '1px solid #d4caba' }}
-              >
+            <div style={{ border: '2px dashed #d4caba', borderRadius: 16, padding: '112px 32px', textAlign: 'center' }}>
+              <div style={{ width: 80, height: 80, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', background: '#f0ebe2', border: '1px solid #d4caba' }}>
                 <Briefcase size={36} style={{ color: '#9a9288' }} />
               </div>
-              <p className="text-xl font-semibold mb-3" style={{ color: '#0f0f0d' }}>No experiences yet</p>
-              <p className="text-base mb-8 max-w-sm mx-auto" style={{ color: '#7a7268' }}>
+              <p style={{ fontSize: 20, fontWeight: 600, color: '#0f0f0d', marginBottom: 12 }}>No experiences yet</p>
+              <p style={{ fontSize: 15, color: '#7a7268', marginBottom: 32, maxWidth: 360, margin: '0 auto 32px' }}>
                 Add your work history manually or import directly from a resume you've uploaded
               </p>
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  onClick={() => setModal({ mode: 'add' })}
-                  className="px-8 py-4 rounded-xl text-sm font-medium transition-all"
-                  style={{
-                    background: '#1a1a18',
-                    color: '#f5f0e8',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28'
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18'
-                  }}
-                >
-                  Add manually
-                </button>
-              </div>
+              <button
+                onClick={() => setModal({ mode: 'add' })}
+                style={{
+                  padding: '14px 32px', borderRadius: 10, fontSize: 15, fontWeight: 600,
+                  background: '#1a1a18', color: '#f5f0e8', border: 'none', cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}
+              >
+                Add manually
+              </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
               {experiences.map(exp => (
                 <ExperienceCard
                   key={exp.exp_id}
