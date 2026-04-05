@@ -33,10 +33,10 @@ const ALL_THEMES = [
 ]
 
 const STAR_META = [
-  { key: 'situation' as const, label: 'Situation', borderColor: '#3b82f6', bg: 'rgba(30,58,138,0.15)', text: '#93c5fd', badge: 'rgba(30,58,138,0.5)', badgeText: '#93c5fd' },
-  { key: 'task'      as const, label: 'Task',      borderColor: '#f59e0b', bg: 'rgba(120,53,15,0.15)', text: '#fcd34d', badge: 'rgba(120,53,15,0.5)', badgeText: '#fcd34d' },
-  { key: 'action'    as const, label: 'Action',    borderColor: '#7c3aed', bg: 'rgba(76,29,149,0.15)', text: '#c4b5fd', badge: 'rgba(76,29,149,0.5)', badgeText: '#c4b5fd' },
-  { key: 'result'    as const, label: 'Result',    borderColor: '#10b981', bg: 'rgba(6,78,59,0.15)',   text: '#6ee7b7', badge: 'rgba(6,78,59,0.5)',   badgeText: '#6ee7b7' },
+  { key: 'situation' as const, label: 'Situation', borderColor: '#1d4ed8', bg: 'rgba(30,58,138,0.08)', text: '#1e3a8a', badge: 'rgba(30,58,138,0.15)', badgeText: '#1e40af' },
+  { key: 'task'      as const, label: 'Task',      borderColor: '#b45309', bg: 'rgba(120,53,15,0.08)', text: '#78350f', badge: 'rgba(120,53,15,0.15)', badgeText: '#92400e' },
+  { key: 'action'    as const, label: 'Action',    borderColor: '#6d28d9', bg: 'rgba(76,29,149,0.08)', text: '#4c1d95', badge: 'rgba(76,29,149,0.15)', badgeText: '#5b21b6' },
+  { key: 'result'    as const, label: 'Result',    borderColor: '#065f46', bg: 'rgba(6,78,59,0.08)',   text: '#064e3b', badge: 'rgba(6,78,59,0.15)',   badgeText: '#065f46' },
 ]
 
 function themeChipStyle(theme: string, selected = false): React.CSSProperties {
