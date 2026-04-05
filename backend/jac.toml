@@ -1,0 +1,2 @@
+[plugins.byllm.model]
+default_model = "claude-sonnet-4-20250514"
