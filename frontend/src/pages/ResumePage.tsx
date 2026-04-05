@@ -383,7 +383,7 @@ export default function ResumePage() {
       <input value={value} onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
         style={{ background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }}
-        className={`rounded-lg px-2.5 py-1.5 text-sm placeholder-[#b0a898] focus:outline-none w-full transition-colors ${className}`}
+        className={`rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none w-full transition-colors ${className}`}
         onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
         onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
       />
@@ -395,7 +395,7 @@ export default function ResumePage() {
       <textarea value={value} onChange={e => onChange(e.target.value)}
         placeholder={placeholder} rows={rows}
         style={{ background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }}
-        className="rounded-lg px-2.5 py-1.5 text-sm placeholder-[#b0a898] focus:outline-none w-full resize-none transition-colors"
+        className="rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none w-full resize-none transition-colors"
         onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
         onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
       />
@@ -412,33 +412,33 @@ export default function ResumePage() {
     if (editMode && editedParsed) {
       const editBullets = editedParsed[section][sectionIdx].bullets
       return (
-        <ul className="mt-2 space-y-1.5">
+        <ul className="mt-3 space-y-2">
           {editBullets.map((b, bi) => (
             <li key={bi} className="flex gap-2 items-start">
-              <span className="mt-2 shrink-0 text-xs" style={{ color: '#9a9288' }}>·</span>
+              <span className="mt-3 shrink-0 text-xs" style={{ color: '#9a9288' }}>·</span>
               <div className="flex-1">
                 {eTextarea(b, v => updateEdit(p => { p[section][sectionIdx].bullets[bi] = v }), 'Bullet…')}
               </div>
               <button onClick={() => updateEdit(p => { p[section][sectionIdx].bullets.splice(bi, 1) })}
-                className="mt-1 hover:text-red-400 shrink-0 transition-colors" style={{ color: '#4a4540' }}>
-                <X size={13} />
+                className="mt-2 hover:text-red-400 shrink-0 transition-colors" style={{ color: '#4a4540' }}>
+                <X size={14} />
               </button>
             </li>
           ))}
           <li>
             <button onClick={() => updateEdit(p => { p[section][sectionIdx].bullets.push('') })}
-              className="flex items-center gap-1 text-xs mt-1 transition-colors"
+              className="flex items-center gap-1.5 text-xs mt-1.5 transition-colors"
               style={{ color: '#7a7268' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
               onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}>
-              <Plus size={11} /> Add bullet
+              <Plus size={12} /> Add bullet
             </button>
           </li>
         </ul>
       )
     }
     return (
-      <ul className="mt-2 space-y-2">
+      <ul className="mt-2.5 space-y-2">
         {bullets.map((b, bi) => {
           const key = `${section}-${sectionIdx}-${bi}`
           const adjusting = adjustingBullet === key
@@ -484,19 +484,19 @@ export default function ResumePage() {
     const pos = order.indexOf(section)
     const isMoving = movingSection === section
     return (
-      <div key={section} className={`rounded-xl p-5 mb-3 transition-opacity ${isMoving ? 'opacity-60' : ''}`}
+      <div key={section} className={`rounded-xl p-6 mb-4 transition-opacity ${isMoving ? 'opacity-60' : ''}`}
         style={{
           background: '#eae5da',
           border: '1px solid #d4caba',
         }}>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#9a9288' }}>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-xs font-bold uppercase tracking-widest" style={{ color: '#9a9288' }}>
             {SECTION_LABELS[section]}
           </h2>
           {!tailoredParsed && !editMode && (
             <div className="flex items-center gap-2 opacity-30 hover:opacity-100 transition-opacity">
-              <GripVertical size={12} style={{ color: '#b0a898' }} />
-              <MoveButtons size={13}
+              <GripVertical size={13} style={{ color: '#b0a898' }} />
+              <MoveButtons size={14}
                 onUp={() => handleMoveSection(section, 'up')}
                 onDown={() => handleMoveSection(section, 'down')}
                 disableUp={pos <= 0 || isMoving}
@@ -548,7 +548,7 @@ export default function ResumePage() {
                     )}
                     <div className="flex-1 min-w-0">
                       {editMode && editedParsed
-                        ? <div className="grid grid-cols-2 gap-2 mb-2">
+                        ? <div className="grid grid-cols-2 gap-3 mb-3">
                             {eInput(editedParsed.experience[si].role, v => updateEdit(p => { p.experience[si].role = v }), 'Role / Title')}
                             {eInput(editedParsed.experience[si].company, v => updateEdit(p => { p.experience[si].company = v }), 'Company')}
                             {eInput(editedParsed.experience[si].dates, v => updateEdit(p => { p.experience[si].dates = v }), 'Dates')}
@@ -569,7 +569,7 @@ export default function ResumePage() {
                       )}
                     </div>
                   </div>
-                  {si < parsed.experience.length - 1 && <div className="border-b mt-5" style={{ borderColor: '#d4caba' }} />}
+                  {si < parsed.experience.length - 1 && <div className="border-b mt-6" style={{ borderColor: '#d4caba' }} />}
                 </div>
               )
             })}
@@ -598,19 +598,19 @@ export default function ResumePage() {
                     )}
                     <div className="flex-1 min-w-0">
                       {editMode && editedParsed
-                        ? <div className="grid grid-cols-2 gap-2 mb-2">
+                        ? <div className="grid grid-cols-2 gap-3 mb-3">
                             {eInput(editedParsed.projects[si].name, v => updateEdit(p => { p.projects[si].name = v }), 'Project name')}
                             {eInput(editedParsed.projects[si].dates ?? '', v => updateEdit(p => { p.projects[si].dates = v }), 'Dates')}
                           </div>
-                        : <div className="flex items-center justify-between mb-1">
+                        : <div className="flex items-center justify-between mb-1.5">
                             <p className="font-semibold text-sm" style={{ color: '#0f0f0d' }}>{proj.name}</p>
                             <span className="text-xs shrink-0 ml-4" style={{ color: '#9a9288' }}>{proj.dates}</span>
                           </div>
                       }
                       {(proj.technologies ?? []).length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-2">
+                        <div className="flex flex-wrap gap-1.5 mb-2">
                           {(proj.technologies ?? []).map((t, ti) => (
-                            <span key={ti} className="text-xs px-2 py-0.5 rounded-full flex items-center gap-1"
+                            <span key={ti} className="text-xs px-2.5 py-1 rounded-full flex items-center gap-1"
                               style={{ background: '#eae5da', color: '#4a4540', border: '1px solid #d4caba' }}>
                               {t}
                               {editMode && (
@@ -628,7 +628,7 @@ export default function ResumePage() {
                       )}
                     </div>
                   </div>
-                  {si < parsed.projects.length - 1 && <div className="border-b mt-4" style={{ borderColor: '#d4caba' }} />}
+                  {si < parsed.projects.length - 1 && <div className="border-b mt-5" style={{ borderColor: '#d4caba' }} />}
                 </div>
               )
             })}
@@ -638,7 +638,7 @@ export default function ResumePage() {
       case 'education':
         if (!parsed.education?.length) return null
         return renderSectionWrapper('education',
-          <div className="space-y-3">
+          <div className="space-y-4">
             {parsed.education.map((edu, si) => {
               const isMovingItem = movingItem === `education-${si}`
               return (
@@ -654,7 +654,7 @@ export default function ResumePage() {
                     </div>
                   )}
                   {editMode && editedParsed
-                    ? <div className="flex-1 grid grid-cols-2 gap-2">
+                    ? <div className="flex-1 grid grid-cols-2 gap-3">
                         {eInput(editedParsed.education[si].institution, v => updateEdit(p => { p.education[si].institution = v }), 'Institution')}
                         {eInput(editedParsed.education[si].dates, v => updateEdit(p => { p.education[si].dates = v }), 'Dates')}
                         {eInput(editedParsed.education[si].degree, v => updateEdit(p => { p.education[si].degree = v }), 'Degree')}
@@ -679,30 +679,30 @@ export default function ResumePage() {
         return renderSectionWrapper('skills',
           <div className="flex flex-wrap gap-2">
             {(editMode && editedParsed ? editedParsed.skills : parsed.skills).map((s, i) => (
-              <span key={i} className="text-xs px-2.5 py-1 rounded-full flex items-center gap-1"
+              <span key={i} className="text-xs px-3 py-1.5 rounded-full flex items-center gap-1"
                 style={{ background: '#f0ebe2', border: '1px solid #d4caba', color: '#4a4540' }}>
                 {s}
                 {editMode && (
                   <button onClick={() => updateEdit(p => { p.skills.splice(i, 1) })}
                     className="hover:text-red-400 transition-colors leading-none" style={{ color: '#9a9288' }}>
-                    <X size={10} />
+                    <X size={11} />
                   </button>
                 )}
               </span>
             ))}
             {editMode && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <input value={newSkill} onChange={e => setNewSkill(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter' && newSkill.trim()) { updateEdit(p => { p.skills.push(newSkill.trim()) }); setNewSkill('') } }}
                   placeholder="Add skill…"
                   style={{ background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }}
-                  className="rounded-full px-2.5 py-1 text-xs focus:outline-none w-28"
+                  className="rounded-full px-3 py-1.5 text-xs focus:outline-none w-32"
                 />
                 <button onClick={() => { if (newSkill.trim()) { updateEdit(p => { p.skills.push(newSkill.trim()) }); setNewSkill('') } }}
                   className="transition-colors" style={{ color: '#7a7268' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                   onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}>
-                  <Plus size={13} />
+                  <Plus size={14} />
                 </button>
               </div>
             )}
@@ -712,7 +712,7 @@ export default function ResumePage() {
       case 'certifications':
         if (!parsed.certifications?.length && !editMode) return null
         return renderSectionWrapper('certifications',
-          <ul className="space-y-2">
+          <ul className="space-y-2.5">
             {(editMode && editedParsed ? editedParsed.certifications : parsed.certifications).map((c, i) => (
               <li key={i} className="flex items-center gap-2">
                 <span className="text-xs shrink-0" style={{ color: '#9a9288' }}>·</span>
@@ -720,24 +720,24 @@ export default function ResumePage() {
                   ? <div className="flex-1 flex gap-2">
                       {eInput(editedParsed.certifications[i], v => updateEdit(p => { p.certifications[i] = v }), 'Certification…')}
                       <button onClick={() => updateEdit(p => { p.certifications.splice(i, 1) })}
-                        className="hover:text-red-400 transition-colors shrink-0" style={{ color: '#9a9288' }}><X size={13} /></button>
+                        className="hover:text-red-400 transition-colors shrink-0" style={{ color: '#9a9288' }}><X size={14} /></button>
                     </div>
                   : <span className="text-sm" style={{ color: '#0f0f0d' }}>{c}</span>
                 }
               </li>
             ))}
             {editMode && (
-              <li className="flex items-center gap-1 mt-1">
+              <li className="flex items-center gap-2 mt-1">
                 <input value={newCert} onChange={e => setNewCert(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter' && newCert.trim()) { updateEdit(p => { p.certifications.push(newCert.trim()) }); setNewCert('') } }}
                   placeholder="Add certification…"
                   style={{ background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }}
-                  className="rounded-lg px-2.5 py-1 text-xs focus:outline-none flex-1"
+                  className="rounded-xl px-4 py-2.5 text-sm focus:outline-none flex-1"
                 />
                 <button onClick={() => { if (newCert.trim()) { updateEdit(p => { p.certifications.push(newCert.trim()) }); setNewCert('') } }}
                   className="transition-colors" style={{ color: '#7a7268' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}><Plus size={13} /></button>
+                  onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}><Plus size={14} /></button>
               </li>
             )}
           </ul>
@@ -750,12 +750,12 @@ export default function ResumePage() {
   // ── Sidebar ──────────────────────────────────────────────────────────────────
 
   const TABS = [
-    { id: 'tailor' as SidebarTab, label: 'Tailor', icon: <Sparkles size={13} /> },
-    { id: 'skills' as SidebarTab, label: 'Skills',  icon: <Target size={13} /> },
-    { id: 'cover'  as SidebarTab, label: 'Cover',   icon: <FileText size={13} /> },
+    { id: 'tailor' as SidebarTab, label: 'Tailor', icon: <Sparkles size={14} /> },
+    { id: 'skills' as SidebarTab, label: 'Skills',  icon: <Target size={14} /> },
+    { id: 'cover'  as SidebarTab, label: 'Cover',   icon: <FileText size={14} /> },
   ]
 
-  const sidebarInputCls = "w-full rounded-xl px-3 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors resize-none"
+  const sidebarInputCls = "w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors resize-none"
   const sidebarInputStyle = { background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }
   const sidebarInputFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)' }
   const sidebarInputBlur  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = '#d4caba' }
@@ -763,7 +763,7 @@ export default function ResumePage() {
   function ToggleChip({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
     return (
       <button onClick={() => onChange(!value)}
-        className="px-3 py-1 rounded-full text-xs font-medium transition-all"
+        className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all"
         style={value
           ? { background: '#1a1a18', color: '#f5f0e8', border: '1px solid transparent' }
           : { background: 'transparent', border: '1px solid #d4caba', color: '#7a7268' }
@@ -777,20 +777,20 @@ export default function ResumePage() {
   }
 
   function SidebarLabel({ children }: { children: React.ReactNode }) {
-    return <label className="block text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#9a9288' }}>{children}</label>
+    return <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>{children}</label>
   }
 
   function renderSidebar() {
     if (sidebarTab === 'tailor') return (
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
           <SidebarLabel>Job Description <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
           <textarea value={jd} onChange={e => setJd(e.target.value)}
-            placeholder="Paste the job description here…" rows={6}
+            placeholder="Paste the job description here…" rows={8}
             className={sidebarInputCls} style={sidebarInputStyle}
             onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <SidebarLabel>Target Role</SidebarLabel>
             <input value={targetRole} onChange={e => setTargetRole(e.target.value)} placeholder="e.g. SWE II"
@@ -813,22 +813,24 @@ export default function ResumePage() {
           </div>
         </div>
         <button onClick={handleTailor} disabled={tailoring || !jd.trim()}
-          className="w-full py-4 rounded-xl text-base font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          style={{ background: '#1a1a18', color: '#f5f0e8' }}>
-          {tailoring ? <><Loader2 size={13} className="animate-spin" />Tailoring…</> : <><Sparkles size={13} />Tailor Resume</>}
+          className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+          style={{ background: '#1a1a18', color: '#f5f0e8' }}
+          onMouseEnter={e => { if (!tailoring) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}>
+          {tailoring ? <><Loader2 size={14} className="animate-spin" />Tailoring…</> : <><Sparkles size={14} />Tailor Resume</>}
         </button>
         {tailoredParsed && (
-          <div className="rounded-xl p-3 space-y-2"
+          <div className="rounded-xl p-4 space-y-3"
             style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.1)' }}>
             <p className="text-xs font-medium" style={{ color: '#0f0f0d' }}>Preview active — highlighted text = AI changes</p>
             <div className="flex gap-2">
               <button onClick={() => setShowSaveModal(true)}
-                className="flex-1 py-2 rounded-lg text-xs font-medium transition-all"
+                className="flex-1 py-2.5 rounded-xl text-sm font-medium transition-all"
                 style={{ background: '#1a1a18', color: '#f5f0e8' }}>
                 Save Version
               </button>
               <button onClick={() => setTailoredParsed(null)}
-                className="flex-1 py-2 rounded-lg text-xs transition-all"
+                className="flex-1 py-2.5 rounded-xl text-sm transition-all"
                 style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b8b0a0' }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.borderColor = '#d4caba' }}>
@@ -841,26 +843,28 @@ export default function ResumePage() {
     )
 
     if (sidebarTab === 'skills') return (
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
           <SidebarLabel>Job Description <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
           <textarea value={jd} onChange={e => setJd(e.target.value)}
-            placeholder="Paste the job description here…" rows={6}
+            placeholder="Paste the job description here…" rows={8}
             className={sidebarInputCls} style={sidebarInputStyle}
             onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
         </div>
         <button onClick={handleMatchSkills} disabled={skillsLoading || !jd.trim()}
-          className="w-full py-4 rounded-xl text-base font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          style={{ background: '#1a1a18', color: '#f5f0e8' }}>
-          {skillsLoading ? <><Loader2 size={13} className="animate-spin" />Analyzing…</> : <><Target size={13} />Analyze Skills</>}
+          className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+          style={{ background: '#1a1a18', color: '#f5f0e8' }}
+          onMouseEnter={e => { if (!skillsLoading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}>
+          {skillsLoading ? <><Loader2 size={14} className="animate-spin" />Analyzing…</> : <><Target size={14} />Analyze Skills</>}
         </button>
         {skillsResult && (
-          <div className="space-y-3">
-            <div className="rounded-xl p-3 flex items-center justify-between"
+          <div className="space-y-4">
+            <div className="rounded-xl p-4 flex items-center justify-between"
               style={{ background: '#eae5da', border: '1px solid #d4caba' }}>
-              <span className="text-sm" style={{ color: '#4a4540' }}>Match Score</span>
-              <div className="flex items-center gap-2">
-                <div className="w-24 h-1.5 rounded-full overflow-hidden" style={{ background: '#d4caba' }}>
+              <span className="text-sm font-medium" style={{ color: '#4a4540' }}>Match Score</span>
+              <div className="flex items-center gap-2.5">
+                <div className="w-24 h-2 rounded-full overflow-hidden" style={{ background: '#d4caba' }}>
                   <div className={`h-full rounded-full ${skillsResult.score >= 70 ? 'bg-emerald-500' : skillsResult.score >= 40 ? 'bg-amber-500' : 'bg-red-500'}`}
                     style={{ width: `${skillsResult.score}%` }} />
                 </div>
@@ -868,15 +872,15 @@ export default function ResumePage() {
               </div>
             </div>
             {[
-              { list: skillsResult.matched,     label: 'Matched', icon: <CheckCircle2 size={12} />, color: 'emerald' },
-              { list: skillsResult.partial,      label: 'Partial',  icon: <AlertCircle size={12} />,  color: 'amber' },
-              { list: skillsResult.missing_key,  label: 'Missing',  icon: <XCircle size={12} />,      color: 'red' },
+              { list: skillsResult.matched,     label: 'Matched', icon: <CheckCircle2 size={13} />, color: 'emerald' },
+              { list: skillsResult.partial,      label: 'Partial',  icon: <AlertCircle size={13} />,  color: 'amber' },
+              { list: skillsResult.missing_key,  label: 'Missing',  icon: <XCircle size={13} />,      color: 'red' },
             ].filter(g => g.list.length).map(g => (
               <div key={g.label}>
-                <div className={`flex items-center gap-1.5 mb-1.5 text-${g.color}-400`}>{g.icon}<span className="text-xs font-semibold">{g.label} ({g.list.length})</span></div>
+                <div className={`flex items-center gap-1.5 mb-2 text-${g.color}-400`}>{g.icon}<span className="text-xs font-semibold">{g.label} ({g.list.length})</span></div>
                 <div className="flex flex-wrap gap-1.5">
                   {g.list.map((s, i) => (
-                    <span key={i} className={`text-xs bg-${g.color}-950/40 border border-${g.color}-800/40 text-${g.color}-300 px-2 py-0.5 rounded-full`}>{s}</span>
+                    <span key={i} className={`text-xs bg-${g.color}-950/40 border border-${g.color}-800/40 text-${g.color}-300 px-2.5 py-1 rounded-full`}>{s}</span>
                   ))}
                 </div>
               </div>
@@ -887,8 +891,8 @@ export default function ResumePage() {
     )
 
     if (sidebarTab === 'cover') return (
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-2">
+      <div className="space-y-5">
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <SidebarLabel>Target Role <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
             <input value={targetRole} onChange={e => setTargetRole(e.target.value)} placeholder="e.g. SWE II"
@@ -903,22 +907,24 @@ export default function ResumePage() {
           </div>
         </div>
         <button onClick={handleCoverLetter} disabled={coverLoading || !targetRole.trim() || !company.trim()}
-          className="w-full py-4 rounded-xl text-base font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          style={{ background: '#1a1a18', color: '#f5f0e8' }}>
-          {coverLoading ? <><Loader2 size={13} className="animate-spin" />Generating…</> : <><FileText size={13} />Generate Cover Letter</>}
+          className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+          style={{ background: '#1a1a18', color: '#f5f0e8' }}
+          onMouseEnter={e => { if (!coverLoading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}>
+          {coverLoading ? <><Loader2 size={14} className="animate-spin" />Generating…</> : <><FileText size={14} />Generate Cover Letter</>}
         </button>
         {coverLetter && (
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs" style={{ color: '#7a7268' }}>Generated cover letter</span>
-              <button onClick={handleCopy} className="flex items-center gap-1 text-xs transition-colors"
-                style={{ color: '#7a7268' }}
+              <span className="text-xs font-medium" style={{ color: '#7a7268' }}>Generated cover letter</span>
+              <button onClick={handleCopy} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-colors"
+                style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}>
-                {copied ? <><Check size={11} />Copied</> : <><Copy size={11} />Copy</>}
+                {copied ? <><Check size={12} />Copied</> : <><Copy size={12} />Copy</>}
               </button>
             </div>
-            <div className="rounded-xl p-3 max-h-[400px] overflow-y-auto"
+            <div className="rounded-xl p-4 max-h-[400px] overflow-y-auto"
               style={{ background: '#f8f4ec', border: '1px solid #d4caba' }}>
               <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: '#0f0f0d' }}>{coverLetter}</p>
             </div>
@@ -935,7 +941,7 @@ export default function ResumePage() {
   if (loading) return (
     <Layout>
       <div className="flex items-center justify-center h-full min-h-[400px]" style={{ color: '#7a7268' }}>
-        <Loader2 className="animate-spin mr-2" size={18} /> Loading…
+        <Loader2 className="animate-spin mr-2" size={20} /> Loading…
       </div>
     </Layout>
   )
@@ -953,15 +959,15 @@ export default function ResumePage() {
         {/* ── Main content ── */}
         <div className="flex-1 overflow-y-auto p-8 min-w-0">
           <button onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-1.5 text-sm mb-6 transition-colors"
+            className="flex items-center gap-1.5 text-sm mb-7 transition-colors"
             style={{ color: '#9a9288' }}
             onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
             onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}>
-            <ArrowLeft size={15} /> Back to Resumes
+            <ArrowLeft size={16} /> Back to Resumes
           </button>
 
           {/* Header */}
-          <div className="flex items-start justify-between mb-4">
+          <div className="flex items-start justify-between mb-5">
             <div>
               <h1 className="text-2xl font-bold tracking-tight"
                 style={{ color: '#0f0f0d' }}>{resume.version_name}</h1>
@@ -969,46 +975,46 @@ export default function ResumePage() {
             </div>
             <div className="flex items-center gap-2 flex-wrap justify-end">
               <button onClick={handlePrint} title="Export as PDF"
-                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all"
+                className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl transition-all"
                 style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b8b0a0' }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.borderColor = '#d4caba' }}>
-                <Printer size={13} /> PDF
+                <Printer size={14} /> PDF
               </button>
               <button onClick={handleExportDocx} disabled={exporting} title="Download DOCX"
-                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all disabled:opacity-50"
+                className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl transition-all disabled:opacity-50"
                 style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b8b0a0' }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.borderColor = '#d4caba' }}>
-                {exporting ? <Loader2 size={13} className="animate-spin" /> : <Download size={13} />} DOCX
+                {exporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />} DOCX
               </button>
               {!tailoredParsed && !editMode && (
                 <button onClick={enterEditMode}
-                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all"
+                  className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl transition-all"
                   style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = '#b8b0a0'; e.currentTarget.style.color = '#0f0f0d' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = '#d4caba'; e.currentTarget.style.color = '#7a7268' }}>
-                  <Edit2 size={13} /> Edit
+                  <Edit2 size={14} /> Edit
                 </button>
               )}
               {editMode && (
                 <>
                   <button onClick={cancelEditMode}
-                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all"
+                    className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl transition-all"
                     style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                     onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b8b0a0' }}
                     onMouseLeave={e => { e.currentTarget.style.color = '#7a7268'; e.currentTarget.style.borderColor = '#d4caba' }}>
-                    <X size={13} /> Cancel
+                    <X size={14} /> Cancel
                   </button>
                   <button onClick={saveEdits} disabled={saving}
-                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all disabled:opacity-50"
+                    className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl transition-all disabled:opacity-50"
                     style={{ background: '#1a1a18', color: '#f5f0e8' }}>
-                    {saving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+                    {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
                     {saving ? 'Saving…' : 'Save Changes'}
                   </button>
                 </>
               )}
-              <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${LABEL_COLORS[resume.label] ?? LABEL_COLORS['general']}`}>
+              <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${LABEL_COLORS[resume.label] ?? LABEL_COLORS['general']}`}>
                 {resume.label}
               </span>
             </div>
@@ -1016,34 +1022,35 @@ export default function ResumePage() {
 
           {/* Banners */}
           {editMode && (
-            <div className="mb-4 space-y-2">
-              <div className="px-4 py-2.5 rounded-xl flex items-center gap-2"
+            <div className="mb-5 space-y-2">
+              <div className="px-5 py-3 rounded-xl flex items-center gap-2"
                 style={{ background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(245,158,11,0.3)' }}>
-                <Edit2 size={13} className="text-amber-600 shrink-0" />
+                <Edit2 size={14} className="text-amber-600 shrink-0" />
                 <span className="text-sm text-amber-700">Edit mode — modify any field, then click <strong>Save Changes</strong> in the top right.</span>
               </div>
               {saveError && (
-                <div className="px-4 py-2.5 rounded-xl flex items-center gap-2"
+                <div className="px-5 py-3 rounded-xl flex items-center gap-2"
                   style={{ background: 'rgba(127,29,29,0.2)', border: '1px solid rgba(185,28,28,0.3)' }}>
-                  <X size={13} className="text-red-400 shrink-0" />
+                  <X size={14} className="text-red-400 shrink-0" />
                   <span className="text-sm text-red-300">{saveError}</span>
                 </div>
               )}
             </div>
           )}
           {tailoredParsed && !editMode && (
-            <div className="mb-4 px-4 py-2.5 rounded-xl flex items-center justify-between"
+            <div className="mb-5 px-5 py-3 rounded-xl flex items-center justify-between"
               style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.1)' }}>
               <div className="flex items-center gap-2">
-                <Sparkles size={13} style={{ color: '#4a4540' }} />
+                <Sparkles size={14} style={{ color: '#4a4540' }} />
                 <span className="text-sm" style={{ color: '#0f0f0d' }}>Tailored preview — highlighted text = AI changes</span>
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => setShowSaveModal(true)}
-                  className="text-xs px-3 py-1 rounded-lg transition-all"
+                  className="text-sm px-4 py-1.5 rounded-xl transition-all"
                   style={{ background: '#1a1a18', color: '#f5f0e8' }}>Save</button>
                 <button onClick={() => setTailoredParsed(null)}
-                  className="text-xs transition-colors" style={{ color: '#7a7268' }}
+                  className="text-sm px-3 py-1.5 rounded-xl transition-colors"
+                  style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                   onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}>Discard</button>
               </div>
@@ -1052,10 +1059,10 @@ export default function ResumePage() {
 
           {/* Contact strip */}
           {resume.parsed.contact && Object.values(resume.parsed.contact).some(Boolean) && (
-            <div className="rounded-xl px-5 py-3 mb-3 flex flex-wrap gap-x-5 gap-y-1"
+            <div className="rounded-xl px-6 py-4 mb-4 flex flex-wrap gap-x-6 gap-y-1.5"
               style={{ background: '#eae5da', border: '1px solid #d4caba' }}>
               {Object.entries(resume.parsed.contact).map(([k, v]) => v
-                ? <span key={k} className="text-xs" style={{ color: '#4a4540' }}>
+                ? <span key={k} className="text-sm" style={{ color: '#4a4540' }}>
                     <span style={{ color: '#9a9288' }}>{k}: </span>{v}
                   </span>
                 : null
@@ -1064,8 +1071,8 @@ export default function ResumePage() {
           )}
 
           {!tailoredParsed && !editMode && (
-            <p className="text-xs mb-4 flex items-center gap-1.5" style={{ color: '#b0a898' }}>
-              <GripVertical size={11} />
+            <p className="text-xs mb-5 flex items-center gap-1.5" style={{ color: '#b0a898' }}>
+              <GripVertical size={12} />
               Hover over sections or entries to reorder · Use Edit to change text
             </p>
           )}
@@ -1074,12 +1081,12 @@ export default function ResumePage() {
         </div>
 
         {/* ── Tools sidebar ── */}
-        <div className="w-[340px] shrink-0 flex flex-col h-full overflow-hidden"
+        <div className="w-[360px] shrink-0 flex flex-col h-full overflow-hidden"
           style={{ borderLeft: '1px solid #d4caba', background: '#ede8dc' }}>
           <div className="flex shrink-0" style={{ borderBottom: '1px solid #d4caba' }}>
             {TABS.map(t => (
               <button key={t.id} onClick={() => setSidebarTab(t.id)}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-medium transition-all border-b-2 ${
+                className={`flex-1 flex items-center justify-center gap-1.5 py-4 text-sm font-medium transition-all border-b-2 ${
                   sidebarTab === t.id ? '' : 'border-transparent'
                 }`}
                 style={{
@@ -1092,7 +1099,7 @@ export default function ResumePage() {
               </button>
             ))}
           </div>
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-6">
             {renderSidebar()}
           </div>
         </div>

@@ -42,12 +42,12 @@ const STAR_META = [
 function themeChipStyle(theme: string, selected = false): React.CSSProperties {
   if (selected) {
     return AMAZON_LPS.has(theme)
-      ? { background: 'rgba(234,88,12,0.8)', border: '1px solid rgba(234,88,12,0.9)', color: '#fff' }
-      : { background: 'rgba(14,165,233,0.8)', border: '1px solid rgba(14,165,233,0.9)', color: '#fff' }
+      ? { background: '#c2410c', border: '1px solid #b45309', color: '#fff', fontWeight: 600 }
+      : { background: '#0369a1', border: '1px solid #0284c7', color: '#fff', fontWeight: 600 }
   }
   return AMAZON_LPS.has(theme)
-    ? { background: 'rgba(120,53,15,0.3)', border: '1px solid rgba(146,64,14,0.4)', color: '#fb923c' }
-    : { background: 'rgba(12,74,110,0.3)', border: '1px solid rgba(14,116,144,0.4)', color: '#38bdf8' }
+    ? { background: 'rgba(194,65,12,0.1)', border: '1px solid rgba(194,65,12,0.35)', color: '#9a3412' }
+    : { background: 'rgba(3,105,161,0.1)', border: '1px solid rgba(3,105,161,0.35)', color: '#075985' }
 }
 
 type Mode = 'idle' | 'build' | 'view' | 'recommend'
@@ -251,23 +251,25 @@ export default function BQPage() {
   function renderSidebar() {
     return (
       <div
-        className="w-72 shrink-0 flex flex-col h-full overflow-hidden"
+        className="w-80 shrink-0 flex flex-col h-full overflow-hidden"
         style={{ borderRight: '1px solid #d4caba' }}
       >
-        <div className="px-5 pt-8 pb-5 shrink-0 space-y-2" style={{ borderBottom: '1px solid #d4caba' }}>
+        <div className="px-6 pt-8 pb-6 shrink-0 space-y-3" style={{ borderBottom: '1px solid #d4caba' }}>
           <button
             onClick={startBuild}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-all"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-medium transition-all"
             style={{
               background: '#1a1a18',
               color: '#f5f0e8',
             }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#2a2a28')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#1a1a18')}
           >
-            <Plus size={14} /> Build New Story
+            <Plus size={15} /> Build New Story
           </button>
           <button
             onClick={startRecommender}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-all"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-medium transition-all"
             style={{ border: '1px solid #d4caba', color: '#7a7268' }}
             onMouseEnter={e => {
               e.currentTarget.style.color = '#0f0f0d'
@@ -278,24 +280,24 @@ export default function BQPage() {
               e.currentTarget.style.borderColor = '#d4caba'
             }}
           >
-            <Target size={14} /> Question Coach
+            <Target size={15} /> Question Coach
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           {loadingData ? (
-            <div className="px-5 pt-6 text-sm flex items-center gap-2" style={{ color: '#7a7268' }}>
-              <Loader2 size={13} className="animate-spin" /> Loading…
+            <div className="px-6 pt-8 text-sm flex items-center gap-2" style={{ color: '#7a7268' }}>
+              <Loader2 size={14} className="animate-spin" /> Loading…
             </div>
           ) : stories.length === 0 ? (
-            <div className="p-6 text-center">
+            <div className="p-8 text-center">
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3"
+                className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4"
                 style={{ background: '#eae5da', border: '1px solid #d4caba' }}
               >
-                <BookOpen size={18} style={{ color: '#7a7268' }} />
+                <BookOpen size={20} style={{ color: '#7a7268' }} />
               </div>
-              <p className="text-xs" style={{ color: '#7a7268' }}>No stories yet — build your first one!</p>
+              <p className="text-sm" style={{ color: '#7a7268' }}>No stories yet — build your first one!</p>
             </div>
           ) : (
             <div className="pt-4 pb-2">
@@ -309,18 +311,18 @@ export default function BQPage() {
                         next.has(group.exp_id) ? next.delete(group.exp_id) : next.add(group.exp_id)
                         return next
                       })}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 transition-colors hover:bg-black/[0.04]"
+                      className="w-full flex items-center gap-2.5 px-4 py-3.5 pr-4 transition-colors hover:bg-black/[0.04]"
                     >
                       {expanded
-                        ? <ChevronDown size={12} className="shrink-0" style={{ color: '#7a7268' }} />
-                        : <ChevronRight size={12} className="shrink-0" style={{ color: '#7a7268' }} />}
-                      <div className="flex-1 text-left min-w-0">
-                        <p className="text-xs font-semibold truncate" style={{ color: '#0f0f0d' }}>{group.company}</p>
-                        <p className="text-xs truncate" style={{ color: '#4a4540' }}>{group.role}</p>
+                        ? <ChevronDown size={13} className="shrink-0" style={{ color: '#7a7268' }} />
+                        : <ChevronRight size={13} className="shrink-0" style={{ color: '#7a7268' }} />}
+                      <div className="flex-1 text-left min-w-0 mr-2">
+                        <p className="text-sm font-semibold truncate" style={{ color: '#0f0f0d' }}>{group.company}</p>
+                        <p className="text-xs truncate mt-0.5" style={{ color: '#4a4540' }}>{group.role}</p>
                       </div>
                       <span
-                        className="text-[10px] px-1.5 py-0.5 rounded-full shrink-0"
-                        style={{ background: 'rgba(0,0,0,0.08)', color: '#4a4540' }}
+                        className="text-xs px-2.5 py-1 rounded-full shrink-0 font-medium"
+                        style={{ background: 'rgba(0,0,0,0.08)', color: '#4a4540', minWidth: '1.5rem', textAlign: 'center' }}
                       >
                         {group.stories.length}
                       </span>
@@ -329,7 +331,7 @@ export default function BQPage() {
                       <button
                         key={s.story_id}
                         onClick={() => openStory(s.story_id)}
-                        className="w-full text-left px-4 py-2.5 pl-9 transition-all"
+                        className="w-full text-left px-5 py-3 pl-10 transition-all"
                         style={
                           viewingStory?.story_id === s.story_id
                             ? {
@@ -349,12 +351,12 @@ export default function BQPage() {
                           }
                         }}
                       >
-                        <p className="text-xs truncate mb-1.5" style={{ color: '#0f0f0d' }}>{s.title}</p>
+                        <p className="text-sm truncate mb-1.5" style={{ color: '#0f0f0d' }}>{s.title}</p>
                         <div className="flex flex-wrap gap-1">
                           {(s.themes ?? []).slice(0, 2).map((t, i) => (
                             <span
                               key={i}
-                              className="text-[10px] px-1.5 py-0.5 rounded-full"
+                              className="text-[10px] px-2 py-0.5 rounded-full"
                               style={themeChipStyle(t)}
                             >
                               {t}
@@ -381,45 +383,46 @@ export default function BQPage() {
   function renderIdle() {
     return (
       <div className="flex-1 flex items-center justify-center p-12">
-        <div className="max-w-md text-center">
+        <div className="max-w-lg text-center">
           <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-8"
             style={{
               background: '#eae5da',
               border: '1px solid #d4caba',
               boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
             }}
           >
-            <MessageSquare size={28} style={{ color: '#4a4540' }} />
+            <MessageSquare size={36} style={{ color: '#4a4540' }} />
           </div>
-          <h2 className="text-xl font-bold mb-2 tracking-tight"
+          <h2 className="text-2xl font-bold mb-3 tracking-tight"
             style={{ color: '#0f0f0d' }}>BQ Story Prep</h2>
-          <p className="text-sm leading-relaxed mb-8" style={{ color: '#7a7268' }}>
+          <p className="text-base leading-relaxed mb-10" style={{ color: '#7a7268' }}>
             Build STAR-format stories from your experiences. Each story is automatically tagged with Amazon Leadership Principles and behavioral themes so you know exactly which interview questions it covers.
           </p>
-          <div className="grid grid-cols-2 gap-3 text-left mb-8">
+
+          <div className="grid grid-cols-2 gap-4 text-left mb-10">
             {[
-              { icon: <Sparkles size={14} />, title: 'AI Story Builder', desc: 'Describe a situation — AI structures it into a full STAR story', accent: '#4a4540' },
-              { icon: <Target size={14} />, title: 'Question Coach', desc: 'Type any BQ question — get your best matching story instantly', accent: '#0ea5e9' },
-              { icon: <BookOpen size={14} />, title: 'LP Mapping', desc: 'Every story is tagged with Amazon Leadership Principles', accent: '#f97316' },
-              { icon: <HelpCircle size={14} />, title: 'Follow-up Prep', desc: 'AI predicts likely follow-up questions for each story', accent: '#10b981' },
+              { icon: <Sparkles size={16} />, title: 'AI Story Builder', desc: 'Describe a situation — AI structures it into a full STAR story', accent: '#4a4540' },
+              { icon: <Target size={16} />, title: 'Question Coach', desc: 'Type any BQ question — get your best matching story instantly', accent: '#0ea5e9' },
+              { icon: <BookOpen size={16} />, title: 'LP Mapping', desc: 'Every story is tagged with Amazon Leadership Principles', accent: '#f97316' },
+              { icon: <HelpCircle size={16} />, title: 'Follow-up Prep', desc: 'AI predicts likely follow-up questions for each story', accent: '#10b981' },
             ].map((f, i) => (
               <div
                 key={i}
-                className="rounded-xl p-3.5 transition-all"
+                className="rounded-xl p-5 transition-all"
                 style={{
                   background: '#eae5da',
                   border: '1px solid #d4caba',
                 }}
               >
-                <div className="flex items-center gap-2 mb-1.5">
-                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
                     style={{ background: '#f0ebe2', color: f.accent }}>
                     {f.icon}
                   </div>
-                  <span className="text-xs font-semibold" style={{ color: '#0f0f0d' }}>{f.title}</span>
+                  <span className="text-sm font-semibold" style={{ color: '#0f0f0d' }}>{f.title}</span>
                 </div>
-                <p className="text-xs leading-relaxed" style={{ color: '#7a7268' }}>{f.desc}</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#7a7268' }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -430,11 +433,13 @@ export default function BQPage() {
           ) : (
             <button
               onClick={startBuild}
-              className="w-full py-4 rounded-xl text-base font-medium transition-all"
+              className="w-full py-4 rounded-xl text-base font-semibold transition-all"
               style={{
                 background: '#1a1a18',
                 color: '#f5f0e8',
               }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#2a2a28')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#1a1a18')}
             >
               Build your first story
             </button>
@@ -447,30 +452,30 @@ export default function BQPage() {
   function renderBuilder() {
     const selectedExp = experiences.find(e => e.exp_id === buildExpId)
     return (
-      <div className="flex-1 overflow-y-auto p-8">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-3 mb-6">
+      <div className="flex-1 overflow-y-auto p-10">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
             <button
               onClick={() => setMode('idle')}
-              className="transition-colors"
+              className="transition-colors p-1"
               style={{ color: '#7a7268' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
               onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
             >
-              <X size={16} />
+              <X size={18} />
             </button>
-            <h2 className="text-xl font-semibold tracking-tight" style={{ color: '#0f0f0d' }}>Build a STAR Story</h2>
+            <h2 className="text-2xl font-bold tracking-tight" style={{ color: '#0f0f0d' }}>Build a STAR Story</h2>
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             {/* Experience selector */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-2.5" style={{ color: '#9a9288' }}>
                 Experience <span style={{ color: '#f87171' }}>*</span>
               </label>
               {experiences.length === 0 ? (
                 <div
-                  className="rounded-xl px-4 py-3"
+                  className="rounded-xl px-5 py-4"
                   style={{ background: 'rgba(120,53,15,0.15)', border: '1px solid rgba(146,64,14,0.3)' }}
                 >
                   <p className="text-sm" style={{ color: 'rgba(252,211,77,0.85)' }}>
@@ -482,7 +487,7 @@ export default function BQPage() {
                   <select
                     value={buildExpId}
                     onChange={e => setBuildExpId(e.target.value)}
-                    className="w-full appearance-none rounded-xl px-4 py-3.5 text-sm focus:outline-none pr-8 transition-colors"
+                    className="w-full appearance-none rounded-xl px-4 py-3.5 text-sm focus:outline-none pr-10 transition-colors"
                     style={inputStyle}
                     onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
                     onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
@@ -493,12 +498,12 @@ export default function BQPage() {
                       </option>
                     ))}
                   </select>
-                  <ChevronDown size={14} className="absolute right-3 top-3 pointer-events-none" style={{ color: '#7a7268' }} />
+                  <ChevronDown size={15} className="absolute right-3.5 top-4 pointer-events-none" style={{ color: '#7a7268' }} />
                 </div>
               )}
               {selectedExp?.description && (
                 <p
-                  className="mt-2 text-xs line-clamp-2 px-3 py-2 rounded-lg"
+                  className="mt-2.5 text-sm line-clamp-2 px-4 py-3 rounded-xl"
                   style={{ color: '#7a7268', background: '#f0ebe2', border: '1px solid #d4caba' }}
                 >
                   {selectedExp.description}
@@ -508,16 +513,16 @@ export default function BQPage() {
 
             {/* Story seed */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#9a9288' }}>
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#9a9288' }}>
                 Story Seed <span style={{ color: '#f87171' }}>*</span>
               </label>
-              <p className="text-xs mb-2" style={{ color: '#9a9288' }}>Briefly describe the situation — 1–3 sentences is enough</p>
+              <p className="text-xs mb-2.5" style={{ color: '#9a9288' }}>Briefly describe the situation — 1–3 sentences is enough</p>
               <textarea
                 value={buildSeed}
                 onChange={e => setBuildSeed(e.target.value)}
                 placeholder="e.g. I led a migration of our auth service to a new provider while maintaining zero downtime for 2M users…"
-                rows={4}
-                className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
+                rows={5}
+                className="w-full rounded-xl px-4 py-3.5 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
                 style={inputStyle}
                 onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
                 onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
@@ -526,34 +531,34 @@ export default function BQPage() {
 
             {/* Question hints */}
             <div>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-2.5">
                 <label className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#9a9288' }}>
                   Question Hints <span style={{ color: '#9a9288', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
                 </label>
                 <button
                   onClick={handleSuggest}
                   disabled={suggesting || !buildExpId || !buildSeed.trim()}
-                  className="flex items-center gap-1.5 text-xs transition-colors disabled:opacity-40"
-                  style={{ color: '#7a7268' }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors disabled:opacity-40"
+                  style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                   onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
                 >
-                  {suggesting ? <Loader2 size={11} className="animate-spin" /> : <Lightbulb size={11} />}
+                  {suggesting ? <Loader2 size={12} className="animate-spin" /> : <Lightbulb size={12} />}
                   Get AI hints
                 </button>
               </div>
               {suggestions.length > 0 && (
                 <div
-                  className="rounded-xl p-4 space-y-2"
+                  className="rounded-xl p-5 space-y-3"
                   style={{ background: '#f0ebe2', border: '1px solid #d4caba' }}
                 >
-                  <p className="text-xs mb-2" style={{ color: '#7a7268' }}>
+                  <p className="text-sm mb-2" style={{ color: '#7a7268' }}>
                     Answer these to enrich your story (paste answers into notes below):
                   </p>
                   {suggestions.map((q, i) => (
-                    <div key={i} className="flex gap-2 items-start">
-                      <span className="text-xs mt-0.5 shrink-0 font-semibold" style={{ color: '#4a4540' }}>{i + 1}.</span>
-                      <p className="text-xs" style={{ color: '#4a4540' }}>{q}</p>
+                    <div key={i} className="flex gap-3 items-start">
+                      <span className="text-xs mt-0.5 shrink-0 font-bold" style={{ color: '#4a4540' }}>{i + 1}.</span>
+                      <p className="text-sm" style={{ color: '#4a4540' }}>{q}</p>
                     </div>
                   ))}
                 </div>
@@ -562,7 +567,7 @@ export default function BQPage() {
 
             {/* Title */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#9a9288' }}>
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#9a9288' }}>
                 Story Title <span style={{ color: '#9a9288', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
               </label>
               <input
@@ -578,15 +583,15 @@ export default function BQPage() {
 
             {/* Extra notes */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#9a9288' }}>
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#9a9288' }}>
                 Extra Notes <span style={{ color: '#9a9288', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
               </label>
               <textarea
                 value={buildNotes}
                 onChange={e => setBuildNotes(e.target.value)}
                 placeholder="Answers to the hint questions, additional context, metrics, constraints…"
-                rows={3}
-                className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
+                rows={4}
+                className="w-full rounded-xl px-4 py-3.5 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
                 style={inputStyle}
                 onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
                 onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
@@ -598,14 +603,14 @@ export default function BQPage() {
               <label className="block text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
                 Target Themes <span style={{ color: '#9a9288', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
               </label>
-              <div className="mb-3">
-                <p className="text-xs mb-2" style={{ color: '#fb923c' }}>Amazon Leadership Principles</p>
-                <div className="flex flex-wrap gap-1.5">
+              <div className="mb-4">
+                <p className="text-xs mb-2.5" style={{ color: '#fb923c' }}>Amazon Leadership Principles</p>
+                <div className="flex flex-wrap gap-2">
                   {ALL_THEMES.filter(t => AMAZON_LPS.has(t)).map(t => (
                     <button
                       key={t}
                       onClick={() => toggleBuildTheme(t)}
-                      className="text-xs px-2.5 py-1 rounded-full transition-all"
+                      className="text-xs px-3 py-1.5 rounded-full transition-all"
                       style={themeChipStyle(t, buildThemes.includes(t))}
                     >
                       {t}
@@ -614,13 +619,13 @@ export default function BQPage() {
                 </div>
               </div>
               <div>
-                <p className="text-xs mb-2" style={{ color: '#38bdf8' }}>General Behavioral</p>
-                <div className="flex flex-wrap gap-1.5">
+                <p className="text-xs mb-2.5" style={{ color: '#38bdf8' }}>General Behavioral</p>
+                <div className="flex flex-wrap gap-2">
                   {ALL_THEMES.filter(t => !AMAZON_LPS.has(t)).map(t => (
                     <button
                       key={t}
                       onClick={() => toggleBuildTheme(t)}
-                      className="text-xs px-2.5 py-1 rounded-full transition-all"
+                      className="text-xs px-3 py-1.5 rounded-full transition-all"
                       style={themeChipStyle(t, buildThemes.includes(t))}
                     >
                       {t}
@@ -634,15 +639,17 @@ export default function BQPage() {
             <button
               onClick={handleBuild}
               disabled={building || !buildExpId || !buildSeed.trim()}
-              className="w-full py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+              className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               style={{
                 background: '#1a1a18',
                 color: '#f5f0e8',
               }}
+              onMouseEnter={e => { if (!building) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}
             >
               {building
-                ? <><Loader2 size={15} className="animate-spin" />Building your STAR story…</>
-                : <><Sparkles size={15} />Build STAR Story</>
+                ? <><Loader2 size={16} className="animate-spin" />Building your STAR story…</>
+                : <><Sparkles size={16} />Build STAR Story</>
               }
             </button>
           </div>
@@ -654,17 +661,17 @@ export default function BQPage() {
   function renderStoryView() {
     if (loadingStory) return (
       <div className="flex-1 flex items-center justify-center" style={{ color: '#7a7268' }}>
-        <Loader2 size={18} className="animate-spin mr-2" /> Loading story…
+        <Loader2 size={20} className="animate-spin mr-2" /> Loading story…
       </div>
     )
     if (!viewingStory) return null
     const { star } = viewingStory
 
     return (
-      <div className="flex-1 overflow-y-auto p-8">
-        <div className="max-w-2xl">
+      <div className="flex-1 overflow-y-auto p-10">
+        <div className="max-w-2xl mx-auto">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-8">
             <div className="flex-1 mr-4">
               {editingTitle ? (
                 <div className="flex items-center gap-2">
@@ -672,72 +679,73 @@ export default function BQPage() {
                     value={titleDraft}
                     onChange={e => setTitleDraft(e.target.value)}
                     autoFocus
-                    className="flex-1 rounded-lg px-3 py-1.5 text-lg font-semibold focus:outline-none"
+                    className="flex-1 rounded-xl px-4 py-2.5 text-lg font-semibold focus:outline-none"
                     style={{ background: '#f8f4ec', border: '1px solid rgba(0,0,0,0.35)', color: '#0f0f0d' }}
                   />
                   <button
                     onClick={handleSaveTitle}
                     disabled={savingTitle || !titleDraft.trim()}
-                    className="transition-colors disabled:opacity-40"
+                    className="transition-colors disabled:opacity-40 p-1"
                     style={{ color: '#4a4540' }}
                     onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                     onMouseLeave={e => (e.currentTarget.style.color = '#4a4540')}
                   >
-                    {savingTitle ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
+                    {savingTitle ? <Loader2 size={18} className="animate-spin" /> : <Check size={18} />}
                   </button>
                   <button
                     onClick={() => setEditingTitle(false)}
-                    className="transition-colors"
+                    className="transition-colors p-1"
                     style={{ color: '#7a7268' }}
                     onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                     onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
                   >
-                    <X size={16} />
+                    <X size={18} />
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 group">
-                  <h2 className="text-xl font-semibold tracking-tight" style={{ color: '#0f0f0d' }}>{viewingStory.title}</h2>
+                <div className="flex items-start gap-3">
+                  <h2 className="text-2xl font-bold tracking-tight leading-snug" style={{ color: '#0f0f0d' }}>{viewingStory.title}</h2>
                   <button
                     onClick={() => { setTitleDraft(viewingStory.title); setEditingTitle(true) }}
-                    className="opacity-0 group-hover:opacity-100 transition-all"
-                    style={{ color: '#9a9288' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
-                    onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}
+                    className="shrink-0 mt-1 p-1.5 rounded-lg transition-all"
+                    title="Rename story"
+                    style={{ color: '#9a9288', border: '1px solid #d4caba', background: '#f0ebe2' }}
+                    onMouseEnter={e => { e.currentTarget.style.color = '#0f0f0d'; e.currentTarget.style.borderColor = '#b0a898' }}
+                    onMouseLeave={e => { e.currentTarget.style.color = '#9a9288'; e.currentTarget.style.borderColor = '#d4caba' }}
                   >
-                    <Edit2 size={13} />
+                    <Edit2 size={14} />
                   </button>
                 </div>
               )}
-              <p className="text-sm mt-1" style={{ color: '#7a7268' }}>
+              <p className="text-sm mt-1.5" style={{ color: '#7a7268' }}>
                 {viewingStory.exp_role} @ {viewingStory.exp_company}
               </p>
             </div>
             <button
               onClick={() => handleDeleteStory(viewingStory.story_id)}
-              className="transition-colors shrink-0"
+              className="transition-colors shrink-0 p-1"
               style={{ color: '#9a9288' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#f87171')}
               onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}
             >
-              <Trash2 size={15} />
+              <Trash2 size={17} />
             </button>
           </div>
 
           {/* STAR sections */}
-          <div className="space-y-3 mb-6">
+          <div className="space-y-4 mb-8">
             {STAR_META.map(({ key, label, borderColor, bg, text, badge, badgeText }) => (
               <div
                 key={key}
-                className="rounded-r-xl px-5 py-4"
+                className="rounded-r-xl px-6 py-5"
                 style={{
-                  borderLeft: `3px solid ${borderColor}`,
+                  borderLeft: `4px solid ${borderColor}`,
                   background: bg,
                 }}
               >
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-3">
                   <span
-                    className="text-xs font-bold px-2 py-0.5 rounded-full"
+                    className="text-xs font-bold px-2.5 py-1 rounded-full"
                     style={{ background: badge, color: badgeText }}
                   >
                     {label}
@@ -750,15 +758,15 @@ export default function BQPage() {
 
           {/* Themes */}
           {star.themes?.length > 0 && (
-            <div className="mb-5">
-              <p className="text-xs font-semibold uppercase tracking-widest mb-2.5" style={{ color: '#9a9288' }}>
+            <div className="mb-6">
+              <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
                 Themes covered
               </p>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {star.themes.map((t, i) => (
                   <span
                     key={i}
-                    className="text-xs px-2.5 py-1 rounded-full"
+                    className="text-xs px-3 py-1.5 rounded-full"
                     style={themeChipStyle(t)}
                   >
                     {t}
@@ -771,23 +779,23 @@ export default function BQPage() {
           {/* Follow-up questions */}
           {star.follow_up_questions?.length > 0 && (
             <div
-              className="mb-5 rounded-xl p-4"
+              className="mb-6 rounded-xl p-6"
               style={{
                 background: '#eae5da',
                 border: '1px solid #d4caba',
               }}
             >
               <p
-                className="text-xs font-semibold uppercase tracking-widest mb-3 flex items-center gap-1.5"
+                className="text-xs font-semibold uppercase tracking-widest mb-4 flex items-center gap-1.5"
                 style={{ color: '#7a7268' }}
               >
-                <HelpCircle size={12} /> Likely follow-up questions
+                <HelpCircle size={13} /> Likely follow-up questions
               </p>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {star.follow_up_questions.map((q, i) => (
                   <li key={i} className="flex gap-3 items-start">
                     <span
-                      className="text-xs font-bold shrink-0 mt-0.5 w-4 h-4 rounded-full flex items-center justify-center"
+                      className="text-xs font-bold shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center"
                       style={{ background: 'rgba(0,0,0,0.08)', color: '#4a4540', fontSize: '10px' }}
                     >
                       {i + 1}
@@ -801,55 +809,55 @@ export default function BQPage() {
 
           {/* Notes */}
           <div
-            className="rounded-xl p-4"
+            className="rounded-xl p-6"
             style={{
               background: '#eae5da',
               border: '1px solid #d4caba',
             }}
           >
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#7a7268' }}>
                 Personal Notes
               </p>
               {!editingNotes && (
                 <button
                   onClick={() => { setNotesDraft(viewingStory.user_notes ?? ''); setEditingNotes(true) }}
-                  className="text-xs flex items-center gap-1 transition-colors"
-                  style={{ color: '#9a9288' }}
+                  className="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors"
+                  style={{ border: '1px solid #d4caba', color: '#9a9288' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                   onMouseLeave={e => (e.currentTarget.style.color = '#9a9288')}
                 >
-                  <Edit2 size={11} /> Edit
+                  <Edit2 size={12} /> Edit
                 </button>
               )}
             </div>
             {editingNotes ? (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <textarea
                   value={notesDraft}
                   onChange={e => setNotesDraft(e.target.value)}
                   placeholder="Your personal practice notes, delivery tips, things to remember…"
-                  rows={4}
+                  rows={5}
                   autoFocus
-                  className="w-full rounded-lg px-3 py-3.5 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
+                  className="w-full rounded-xl px-4 py-3.5 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
                   style={{ background: '#f8f4ec', border: '1px solid rgba(0,0,0,0.35)', color: '#0f0f0d' }}
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={handleSaveNotes}
                     disabled={savingNotes}
-                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-all disabled:opacity-50"
+                    className="flex items-center gap-1.5 text-sm px-5 py-2.5 rounded-xl transition-all disabled:opacity-50"
                     style={{
                       background: '#1a1a18',
                       color: '#f5f0e8',
                     }}
                   >
-                    {savingNotes ? <Loader2 size={11} className="animate-spin" /> : <Save size={11} />}
+                    {savingNotes ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
                     Save
                   </button>
                   <button
                     onClick={() => setEditingNotes(false)}
-                    className="text-xs px-3 py-1.5 rounded-lg border transition-colors"
+                    className="text-sm px-5 py-2.5 rounded-xl border transition-colors"
                     style={{ border: '1px solid #d4caba', color: '#7a7268' }}
                     onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                     onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
@@ -875,36 +883,36 @@ export default function BQPage() {
 
   function renderRecommender() {
     return (
-      <div className="flex-1 overflow-y-auto p-8">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-3 mb-6">
+      <div className="flex-1 overflow-y-auto p-10">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
             <button
               onClick={() => setMode('idle')}
-              className="transition-colors"
+              className="transition-colors p-1"
               style={{ color: '#7a7268' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
               onMouseLeave={e => (e.currentTarget.style.color = '#7a7268')}
             >
-              <X size={16} />
+              <X size={18} />
             </button>
-            <h2 className="text-xl font-semibold tracking-tight" style={{ color: '#0f0f0d' }}>Question Coach</h2>
+            <h2 className="text-2xl font-bold tracking-tight" style={{ color: '#0f0f0d' }}>Question Coach</h2>
           </div>
 
-          <p className="text-sm mb-6" style={{ color: '#7a7268' }}>
+          <p className="text-base mb-8" style={{ color: '#7a7268' }}>
             Type a BQ question you're preparing for and get matched to your best story — with key points to emphasize.
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>
+              <label className="block text-xs font-semibold uppercase tracking-widest mb-2.5" style={{ color: '#9a9288' }}>
                 Interview Question
               </label>
               <textarea
                 value={question}
                 onChange={e => setQuestion(e.target.value)}
                 placeholder="e.g. Tell me about a time you had to make a decision with incomplete information…"
-                rows={3}
-                className="w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
+                rows={5}
+                className="w-full rounded-xl px-4 py-3.5 text-sm placeholder-[#b0a898] focus:outline-none resize-none transition-colors"
                 style={inputStyle}
                 onFocus={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)')}
                 onBlur={e => (e.currentTarget.style.borderColor = '#d4caba')}
@@ -913,18 +921,20 @@ export default function BQPage() {
             <button
               onClick={handleRecommend}
               disabled={recommending || !question.trim() || stories.length === 0}
-              className="w-full py-4 rounded-xl text-base font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+              className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               style={{
                 background: '#1a1a18',
                 color: '#f5f0e8',
               }}
+              onMouseEnter={e => { if (!recommending) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}
             >
               {recommending
-                ? <><Loader2 size={14} className="animate-spin" />Finding best story…</>
-                : <><Target size={14} />Find Best Story</>}
+                ? <><Loader2 size={16} className="animate-spin" />Finding best story…</>
+                : <><Target size={16} />Find Best Story</>}
             </button>
             {stories.length === 0 && (
-              <p className="text-xs text-center" style={{ color: 'rgba(251,191,36,0.8)' }}>
+              <p className="text-sm text-center" style={{ color: 'rgba(251,191,36,0.8)' }}>
                 Build some stories first to use the Question Coach.
               </p>
             )}
@@ -932,41 +942,41 @@ export default function BQPage() {
 
           {recommendation && (
             <div
-              className="mt-6 rounded-2xl overflow-hidden"
+              className="mt-8 rounded-2xl overflow-hidden"
               style={{
                 background: '#eae5da',
                 border: '1px solid #d4caba',
               }}
             >
               <div
-                className="px-5 py-4"
+                className="px-6 py-5"
                 style={{
                   background: 'rgba(0,0,0,0.04)',
                   borderBottom: '1px solid rgba(0,0,0,0.08)',
                 }}
               >
-                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#7a7268' }}>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#7a7268' }}>
                   Best match
                 </p>
-                <p className="font-semibold" style={{ color: '#0f0f0d' }}>{recommendation.story_title}</p>
+                <p className="text-lg font-semibold" style={{ color: '#0f0f0d' }}>{recommendation.story_title}</p>
               </div>
-              <div className="p-5 space-y-4">
+              <div className="p-6 space-y-5">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#9a9288' }}>
+                  <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>
                     Why this story
                   </p>
                   <p className="text-sm leading-relaxed" style={{ color: '#4a4540' }}>{recommendation.reason}</p>
                 </div>
                 {recommendation.key_points_to_emphasize?.length > 0 && (
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest mb-2.5" style={{ color: '#9a9288' }}>
+                    <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#9a9288' }}>
                       Key points to emphasize
                     </p>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2.5">
                       {recommendation.key_points_to_emphasize.map((pt, i) => (
-                        <li key={i} className="flex gap-2 items-start">
+                        <li key={i} className="flex gap-2.5 items-start">
                           <span className="shrink-0 mt-0.5" style={{ color: '#4a4540' }}>
-                            <ArrowRight size={12} />
+                            <ArrowRight size={14} />
                           </span>
                           <span className="text-sm" style={{ color: '#4a4540' }}>{pt}</span>
                         </li>
@@ -976,12 +986,12 @@ export default function BQPage() {
                 )}
                 <button
                   onClick={() => openStory(recommendation.story_id)}
-                  className="flex items-center gap-2 text-sm transition-colors"
-                  style={{ color: '#4a4540' }}
+                  className="flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-xl transition-colors"
+                  style={{ border: '1px solid #d4caba', color: '#4a4540' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#0f0f0d')}
                   onMouseLeave={e => (e.currentTarget.style.color = '#4a4540')}
                 >
-                  <BookOpen size={13} /> View full story
+                  <BookOpen size={14} /> View full story
                 </button>
               </div>
             </div>
