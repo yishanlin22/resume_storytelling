@@ -755,21 +755,13 @@ export default function ResumePage() {
     { id: 'cover'  as SidebarTab, label: 'Cover',   icon: <FileText size={14} /> },
   ]
 
-  const sidebarInputCls = "w-full rounded-xl px-4 py-3 text-sm placeholder-[#b0a898] focus:outline-none transition-colors resize-none"
-  const sidebarInputStyle = { background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d' }
-  const sidebarInputFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)' }
-  const sidebarInputBlur  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = '#d4caba' }
-
   function ToggleChip({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
     return (
       <button onClick={() => onChange(!value)}
-        className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all"
         style={value
-          ? { background: '#1a1a18', color: '#f5f0e8', border: '1px solid transparent' }
-          : { background: 'transparent', border: '1px solid #d4caba', color: '#7a7268' }
+          ? { padding: '8px 16px', borderRadius: 8, fontSize: 13, fontWeight: 500, cursor: 'pointer', border: '1px solid #1a1a18', background: '#1a1a18', color: '#f5f0e8' }
+          : { padding: '8px 16px', borderRadius: 8, fontSize: 13, fontWeight: 500, cursor: 'pointer', border: '1px solid #d4caba', background: '#f0ebe2', color: '#4a4540' }
         }
-        onMouseEnter={e => { if (!value) e.currentTarget.style.color = '#0f0f0d' }}
-        onMouseLeave={e => { if (!value) e.currentTarget.style.color = '#7a7268' }}
       >
         {label}
       </button>
@@ -777,44 +769,58 @@ export default function ResumePage() {
   }
 
   function SidebarLabel({ children }: { children: React.ReactNode }) {
-    return <label className="block text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#9a9288' }}>{children}</label>
+    return (
+      <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9a9288', display: 'block' }}>
+        {children}
+      </label>
+    )
+  }
+
+  const fieldStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: 10 }
+  const inputStyle: React.CSSProperties = {
+    background: '#f8f4ec', border: '1px solid #d4caba', color: '#0f0f0d',
+    borderRadius: 10, padding: '14px 16px', fontSize: 15, outline: 'none', width: '100%',
+  }
+  const inputFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.35)' }
+  const inputBlur  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = '#d4caba' }
+  const ctaStyle: React.CSSProperties = {
+    padding: '14px 0', borderRadius: 10, fontSize: 15, fontWeight: 600,
+    background: '#1a1a18', color: '#f5f0e8', border: 'none', width: '100%',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer',
   }
 
   function renderSidebar() {
     if (sidebarTab === 'tailor') return (
-      <div className="space-y-5">
-        <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={fieldStyle}>
           <SidebarLabel>Job Description <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
           <textarea value={jd} onChange={e => setJd(e.target.value)}
             placeholder="Paste the job description here…" rows={8}
-            className={sidebarInputCls} style={sidebarInputStyle}
-            onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
+            style={{ ...inputStyle, resize: 'none' }}
+            onFocus={inputFocus} onBlur={inputBlur} />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div style={fieldStyle}>
             <SidebarLabel>Target Role</SidebarLabel>
             <input value={targetRole} onChange={e => setTargetRole(e.target.value)} placeholder="e.g. SWE II"
-              className={sidebarInputCls} style={sidebarInputStyle}
-              onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
+              style={inputStyle} onFocus={inputFocus} onBlur={inputBlur} />
           </div>
-          <div>
+          <div style={fieldStyle}>
             <SidebarLabel>Company</SidebarLabel>
             <input value={company} onChange={e => setCompany(e.target.value)} placeholder="e.g. Anthropic"
-              className={sidebarInputCls} style={sidebarInputStyle}
-              onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
+              style={inputStyle} onFocus={inputFocus} onBlur={inputBlur} />
           </div>
         </div>
-        <div>
+        <div style={fieldStyle}>
           <SidebarLabel>Options</SidebarLabel>
-          <div className="flex flex-wrap gap-2">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <ToggleChip label="Keyword Optimize" value={keywordOptimize} onChange={setKeywordOptimize} />
             <ToggleChip label="Add Summary" value={addSummary} onChange={setAddSummary} />
             <ToggleChip label="Quantify Bullets" value={quantify} onChange={setQuantify} />
           </div>
         </div>
         <button onClick={handleTailor} disabled={tailoring || !jd.trim()}
-          className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          style={{ background: '#1a1a18', color: '#f5f0e8' }}
+          style={{ ...ctaStyle, opacity: (tailoring || !jd.trim()) ? 0.5 : 1 }}
           onMouseEnter={e => { if (!tailoring) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}>
           {tailoring ? <><Loader2 size={14} className="animate-spin" />Tailoring…</> : <><Sparkles size={14} />Tailor Resume</>}
@@ -843,17 +849,16 @@ export default function ResumePage() {
     )
 
     if (sidebarTab === 'skills') return (
-      <div className="space-y-5">
-        <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={fieldStyle}>
           <SidebarLabel>Job Description <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
           <textarea value={jd} onChange={e => setJd(e.target.value)}
             placeholder="Paste the job description here…" rows={8}
-            className={sidebarInputCls} style={sidebarInputStyle}
-            onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
+            style={{ ...inputStyle, resize: 'none' }}
+            onFocus={inputFocus} onBlur={inputBlur} />
         </div>
         <button onClick={handleMatchSkills} disabled={skillsLoading || !jd.trim()}
-          className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          style={{ background: '#1a1a18', color: '#f5f0e8' }}
+          style={{ ...ctaStyle, opacity: (skillsLoading || !jd.trim()) ? 0.5 : 1 }}
           onMouseEnter={e => { if (!skillsLoading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}>
           {skillsLoading ? <><Loader2 size={14} className="animate-spin" />Analyzing…</> : <><Target size={14} />Analyze Skills</>}
@@ -891,24 +896,21 @@ export default function ResumePage() {
     )
 
     if (sidebarTab === 'cover') return (
-      <div className="space-y-5">
-        <div className="grid grid-cols-2 gap-3">
-          <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div style={fieldStyle}>
             <SidebarLabel>Target Role <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
             <input value={targetRole} onChange={e => setTargetRole(e.target.value)} placeholder="e.g. SWE II"
-              className={sidebarInputCls} style={sidebarInputStyle}
-              onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
+              style={inputStyle} onFocus={inputFocus} onBlur={inputBlur} />
           </div>
-          <div>
+          <div style={fieldStyle}>
             <SidebarLabel>Company <span style={{ color: '#f87171' }}>*</span></SidebarLabel>
             <input value={company} onChange={e => setCompany(e.target.value)} placeholder="e.g. Anthropic"
-              className={sidebarInputCls} style={sidebarInputStyle}
-              onFocus={sidebarInputFocus} onBlur={sidebarInputBlur} />
+              style={inputStyle} onFocus={inputFocus} onBlur={inputBlur} />
           </div>
         </div>
         <button onClick={handleCoverLetter} disabled={coverLoading || !targetRole.trim() || !company.trim()}
-          className="w-full py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          style={{ background: '#1a1a18', color: '#f5f0e8' }}
+          style={{ ...ctaStyle, opacity: (coverLoading || !targetRole.trim() || !company.trim()) ? 0.5 : 1 }}
           onMouseEnter={e => { if (!coverLoading) (e.currentTarget as HTMLButtonElement).style.background = '#2a2a28' }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a18' }}>
           {coverLoading ? <><Loader2 size={14} className="animate-spin" />Generating…</> : <><FileText size={14} />Generate Cover Letter</>}
@@ -1083,23 +1085,24 @@ export default function ResumePage() {
         {/* ── Tools sidebar ── */}
         <div className="w-[360px] shrink-0 flex flex-col h-full overflow-hidden"
           style={{ borderLeft: '1px solid #d4caba', background: '#ede8dc' }}>
-          <div className="flex shrink-0" style={{ borderBottom: '1px solid #d4caba' }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid #d4caba', flexShrink: 0 }}>
             {TABS.map(t => (
               <button key={t.id} onClick={() => setSidebarTab(t.id)}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-4 text-sm font-medium transition-all border-b-2 ${
-                  sidebarTab === t.id ? '' : 'border-transparent'
-                }`}
                 style={{
-                  color: sidebarTab === t.id ? '#0f0f0d' : '#9a9288',
-                  borderBottomColor: sidebarTab === t.id ? '#0f0f0d' : 'transparent',
+                  flex: 1, padding: '14px 0', fontSize: 14, fontWeight: 500,
+                  cursor: 'pointer', border: 'none', background: 'transparent',
+                  color: sidebarTab === t.id ? '#0f0f0d' : '#7a7268',
+                  borderBottom: sidebarTab === t.id ? '2px solid #0f0f0d' : '2px solid transparent',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                  transition: 'color 0.15s',
                 }}
-                onMouseEnter={e => { if (sidebarTab !== t.id) e.currentTarget.style.color = '#4a4540' }}
-                onMouseLeave={e => { if (sidebarTab !== t.id) e.currentTarget.style.color = '#9a9288' }}>
+                onMouseEnter={e => { if (sidebarTab !== t.id) (e.currentTarget as HTMLButtonElement).style.color = '#4a4540' }}
+                onMouseLeave={e => { if (sidebarTab !== t.id) (e.currentTarget as HTMLButtonElement).style.color = '#7a7268' }}>
                 {t.icon}{t.label}
               </button>
             ))}
           </div>
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto" style={{ padding: '24px 20px' }}>
             {renderSidebar()}
           </div>
         </div>
